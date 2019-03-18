@@ -24,10 +24,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private void goToHomeScreen(){
         //start to main
-        Handler mHandler =  new Handler();
-        mHandler.postDelayed(()->{
+        Handler handler =  new Handler();
+        handler.postDelayed(()->{
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-        },TIME_DELAY);
+        }, TIME_DELAY);
     }
 }
