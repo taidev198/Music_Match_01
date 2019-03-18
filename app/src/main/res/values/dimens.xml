@@ -22,5 +22,4 @@
     <dimen name="elevation_border_logo">12dp</dimen>
     <dimen name="constraint_guide_begin">20dp</dimen>
     <dimen name="inner_radius_border_logo">10dp</dimen>
-
 </resources>
