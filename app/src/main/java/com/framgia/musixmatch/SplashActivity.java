@@ -10,15 +10,17 @@ import android.support.v7.app.AppCompatActivity;
  * in Music_Match_1.
  */
 public class SplashActivity extends AppCompatActivity {
-
+    public static final int TIME_DELAY = 2000;
+    private Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         //start to main
-        new Handler().postDelayed(()->{
+       mHandler =  new Handler();
+       mHandler.postDelayed(()->{
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-        },2000);
+        },TIME_DELAY);
     }
 }

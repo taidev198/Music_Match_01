@@ -7,12 +7,12 @@
     tools:context=".SplashActivity">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/border_logo_app"
+        android:id="@+id/cardview_logo_app"
         android:layout_width="@dimen/border_logo_width"
         android:layout_height="@dimen/border_logo_height"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/margin_border_end"
+        android:layout_marginTop="@dimen/margin_border_end"
         android:layout_marginEnd="@dimen/margin_border_end"
         android:layout_marginBottom="@dimen/margin_border_end"
         android:elevation="@dimen/elevation_border_logo"
@@ -60,4 +60,3 @@
         app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"
         app:layout_constraintGuide_percent="0.63"/>
 </android.support.constraint.ConstraintLayout>
-
