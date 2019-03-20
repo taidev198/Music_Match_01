@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="button_state">
+        <enum name="off" value="0"/>
+        <enum name="one" value="1"/>
+        <enum name="all" value="2"/>
+        <enum name="shuffle" value="3"/>
+    </attr>
+    <declare-styleable name="RepeatButtonView">
+        <attr name="button_state"/>
+        <attr name="src_repeat_off" format="integer"/>
+        <attr name="src_repeat_one" format="integer"/>
+        <attr name="src_repeat_all" format="integer"/>
+        <attr name="src_shuffle" format="integer"/>
+    </declare-styleable>
+</resources>
