@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.framgia.musixmatch.R;
 import com.framgia.musixmatch.ui.main.MainActivity;
+import com.framgia.musixmatch.ui.search.SearchActivity;
 
 /**
  * Created by superme198 on 15,March,2019
