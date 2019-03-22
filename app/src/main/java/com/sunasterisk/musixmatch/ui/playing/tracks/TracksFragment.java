@@ -1,6 +1,5 @@
 package com.sunasterisk.musixmatch.ui.playing.tracks;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -18,17 +17,6 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     private RecyclerView mRecyclerView;
     private TracksContract.Presenter mPresenter;
     private TracksAdapter mAdapter;
-    private OnTrackClickListener mCallback;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mCallback = (OnTrackClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnTrackClickListener.");
-        }
-    }
 
     public static TracksFragment getInstance() {
         if (mInstance == null) {
@@ -44,9 +32,8 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void initComponents(View view) {
-        mRecyclerView = view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_tracks);
         mPresenter = new TracksPresenter(TrackRepository.getInstance(new TrackLocalDataSource(getActivity())), this);
-
     }
 
     @Override
@@ -56,9 +43,8 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksAdapter(getActivity(), tracks);
+        mAdapter = new TracksAdapter(tracks, this);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setCallback(this);
     }
 
     @Override
@@ -68,16 +54,5 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void onTrackClickListener(Track track) {
-        mCallback.onTrackClickListener(track);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCallback = null;
-    }
-
-    public interface OnTrackClickListener {
-        void onTrackClickListener(Track track);
     }
 }

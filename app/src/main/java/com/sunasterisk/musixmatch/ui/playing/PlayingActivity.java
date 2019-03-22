@@ -1,6 +1,5 @@
 package com.sunasterisk.musixmatch.ui.playing;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageButton;
@@ -8,13 +7,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sunasterisk.musixmatch.R;
-import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
-import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
-import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.widget.RepeatButtonView;
 
-public class PlayingActivity extends BaseActivity implements TracksFragment.OnTrackClickListener {
+public class PlayingActivity extends BaseActivity {
     private TextView mTextTrackName;
     private TextView mTextArtistName;
     private TextView mTextCurrentTime;
@@ -25,7 +21,6 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnTr
     private ImageButton mButtonPlay;
     private ImageButton mButtonNext;
     private ImageButton mButtonFavorite;
-    private PlayingViewPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private TabLayout mTabDots;
 
@@ -48,20 +43,9 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnTr
         mButtonFavorite = findViewById(R.id.button_favorite);
         mViewPager = findViewById(R.id.view_pager);
         mTabDots = findViewById(R.id.tab_dots);
-        mPagerAdapter = new PlayingViewPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setCurrentItem(1);
-        mTabDots.setupWithViewPager(mViewPager);
     }
 
     @Override
     protected void initData() {
     }
-
-    @Override
-    public void onTrackClickListener(Track track) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.BundleTrackKey.ARGUMENT_TRACK, track);
-    }
-
 }
