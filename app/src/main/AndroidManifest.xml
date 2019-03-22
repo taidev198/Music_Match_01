@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sunasterisk.musixmatch">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".application.MusixMatchApplication"
         android:allowBackup="true"
@@ -12,9 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.playing.PlayingActivity" />
         <activity
-            android:name="ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

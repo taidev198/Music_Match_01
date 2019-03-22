@@ -1,6 +1,9 @@
 package com.sunasterisk.musixmatch.data.model;
 
-public class Track {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Track implements Parcelable {
     private int mTrackId;
     private String mTrackName;
     private int mAlbumId;
@@ -22,6 +25,30 @@ public class Track {
         mDuration = builder.mDuration;
         mSize = builder.mSize;
     }
+
+    protected Track(Parcel in) {
+        mTrackId = in.readInt();
+        mTrackName = in.readString();
+        mAlbumId = in.readInt();
+        mAlbumName = in.readString();
+        mArtistId = in.readInt();
+        mArtistName = in.readString();
+        mData = in.readString();
+        mDuration = in.readLong();
+        mSize = in.readLong();
+    }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 
     public int getTrackId() {
         return mTrackId;
@@ -57,6 +84,24 @@ public class Track {
 
     public long getSize() {
         return mSize;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(mTrackId);
+        parcel.writeString(mTrackName);
+        parcel.writeInt(mAlbumId);
+        parcel.writeString(mAlbumName);
+        parcel.writeInt(mArtistId);
+        parcel.writeString(mArtistName);
+        parcel.writeString(mData);
+        parcel.writeLong(mDuration);
+        parcel.writeLong(mSize);
     }
 
     public static class Builder {
