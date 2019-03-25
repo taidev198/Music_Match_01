@@ -1,5 +1,10 @@
 package com.sunasterisk.musixmatch.data.model;
 
+import com.sunasterisk.musixmatch.utils.TrackLoaderUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Track {
     private int mTrackId;
     private String mTrackName;
@@ -21,6 +26,14 @@ public class Track {
         mData = builder.mData;
         mDuration = builder.mDuration;
         mSize = builder.mSize;
+    }
+
+    public Track(JSONObject jsonObject) throws JSONException {
+        mTrackId = jsonObject.getInt(JSonKey.TRACK_ID);
+        mTrackName = jsonObject.getString(JSonKey.TRACK_NAME);
+        mAlbumId = jsonObject.getInt(JSonKey.ALBUM_ID);
+        mAlbumName = jsonObject.getString(JSonKey.ARTIST_NAME);
+        mArtistName = jsonObject.getString(JSonKey.ARTIST_NAME);
     }
 
     public int getTrackId() {
@@ -121,5 +134,20 @@ public class Track {
         public Track build() {
             return new Track(this);
         }
+    }
+
+    public class JSonKey {
+        public static final String TRACK_LIST = "track_list";
+        public static final String MESSAGE = "message";
+        public static final String BODY = "body";
+        public static final String COMMON_TRACK_ID = "commontrack_id";
+        public static final String TRACK_NAME = "track_name";
+        public static final String TRACK_ID = "id";
+        public static final String TITLE = "title";
+        public static final String GENRE = "genre";
+        public static final String ARTIST_NAME = "artist_name";
+        public static final String ARTIST_ID = "artist_id";
+        public static final String ALBUM_NAME = "album_name";
+        public static final String ALBUM_ID = "album_id";
     }
 }

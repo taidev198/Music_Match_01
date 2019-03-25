@@ -8,6 +8,8 @@ import com.sunasterisk.musixmatch.R;
 
 public class SearchActivity extends BaseActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
