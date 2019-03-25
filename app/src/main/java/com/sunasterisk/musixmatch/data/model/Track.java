@@ -149,5 +149,6 @@ public class Track {
         public static final String ARTIST_ID = "artist_id";
         public static final String ALBUM_NAME = "album_name";
         public static final String ALBUM_ID = "album_id";
+        public static final String TRACK = "track";
     }
 }

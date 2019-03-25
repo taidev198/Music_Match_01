@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.ui.main.MainActivity;
+import com.sunasterisk.musixmatch.ui.search.SearchActivity;
 
 /**
  * Created by superme198 on 15,March,2019
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         //start to main
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(intent);
         }, TIME_DELAY);
     }
