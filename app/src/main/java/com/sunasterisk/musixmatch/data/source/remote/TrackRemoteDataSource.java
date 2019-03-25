@@ -2,12 +2,9 @@ package com.sunasterisk.musixmatch.data.source.remote;
 
 import android.util.Log;
 
-import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.source.TrackDataSource;
 import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.Methods;
-
-import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -31,7 +28,7 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
 
     @Override
     public void getTracksByAlbum(int albumID, int limit, TrackDataSource.LoadTrackCallback callBack) {
-       // getSongsDataFromAPI(albumID, limit, callBack);
+        getSongsDataFromAPI(albumID, limit, callBack);
     }
 
     @Override
@@ -50,21 +47,20 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
                 + Constants.QUERY_TRACK
                 +"="
                 +searchKey;
-        Log.d(TAG, "getSongsBySearchKey: " + url);
         new SearchRemoteTrackFromAPIAsyncTask(callBack, searchKey).execute(url);
     }
 
-//    private void getSongsDataFromAPI(int albumID, int limit, CallBack<List<Track>> callBack) {
-//        String url = Constants.BASE_URL
-//                +Constants.VERSION
-//                + Constants.URL_DELIM
-//                + Methods.ALBUM_TRACKS_GET
-//                +"?"
-//                +Constants.API_KEY
-//                +"&"
-//                + Constants.ALBUM_ID
-//                +"="
-//                +albumID;
-//        //new RemoteDataHelperAsyncTask(callBack).execute(url);
-//    }
+    private void getSongsDataFromAPI(int albumID, int limit, TrackDataSource.LoadTrackCallback callBack) {
+        String url = Constants.BASE_URL
+                +Constants.VERSION
+                + Constants.URL_DELIM
+                + Methods.ALBUM_TRACKS_GET
+                +"?"
+                +Constants.API_KEY
+                +"&"
+                + Constants.ALBUM_ID
+                +"="
+                +albumID;
+        new SearchRemoteTrackFromAPIAsyncTask(callBack, "").execute(url);
+    }
 }

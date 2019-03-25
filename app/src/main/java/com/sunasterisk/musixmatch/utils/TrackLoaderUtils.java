@@ -50,10 +50,8 @@ public class TrackLoaderUtils {
             JSONObject jsonObject = songsCollection.getJSONObject(i)
                     .getJSONObject(Track.JSonKey.TRACK);
             Track track = new Track(jsonObject);
-            //track.setTrackType(TrackType.TYPE_ONLINE);
             tracks.add(track);
         }
-        System.out.println(jsonString);
         return tracks;
     }
 }

@@ -18,7 +18,7 @@ public interface SearchContract {
 
         void showProgressBar(boolean isLoading);
 
-        void showSearchResult(List<Track> songs);
+        void showSearchResult(List<Track> tracks);
 
         void showError(String errMsg);
 
@@ -30,15 +30,9 @@ public interface SearchContract {
 
         void loadSearchResult(String searchKey);
 
-        void saveRecentSearch(String query, Context context);
+        void saveRecentSearch(Context context, String query);
 
         void onQueryTextSubmit(String query);
-
-        String getSearchKey();
-
-        void setSearchKey(String searchKey);
-
-        void setAddSearchKey(boolean isAdding);
 
     }
 }

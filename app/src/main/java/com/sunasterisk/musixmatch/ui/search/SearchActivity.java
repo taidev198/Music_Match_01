@@ -68,20 +68,20 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public void showIntroSearch(boolean isLoading) {
-        if (isLoading)
+        if (isLoading) {
             mIntroSearchGroup.setVisibility(View.VISIBLE);
-        else
+        } else {
             mIntroSearchGroup.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showProgressBar(boolean isLoading) {
-        if (isLoading){
+        if (isLoading) {
             mProgressBar.setVisibility(View.VISIBLE);
-        }
-        else{
-            mProgressBar.setVisibility(View.GONE);
             mResultsSearchGroup.setVisibility(View.GONE);
+        } else {
+            mProgressBar.setVisibility(View.GONE);
         }
 
     }
@@ -110,12 +110,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    SuggestionProvider.AUTHORITY, SuggestionProvider.MODE_QUERY);
-            suggestions.saveRecentQuery(query, null);
-        }
+        mSearchPresenter.saveRecentSearch(getApplicationContext(), query);
+        mSearchView.setQuery(query, false);
+        mResultsSearchGroup.setVisibility(View.GONE);
         mSearchPresenter.onQueryTextSubmit(query);
         return true;
     }
@@ -130,15 +127,16 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         setIntent(intent);
         String recentQuery = intent.getStringExtra(SearchManager.QUERY);
         mSearchPresenter.onQueryTextSubmit(recentQuery);
+        mSearchView.setQuery(recentQuery, false);
     }
 
-    private void loadData(){
+    private void loadData() {
         TrackRepository repository = TrackRepository.getInstance(null, TrackRemoteDataSource.getInstance());
         mSearchPresenter = new SearchPresenter(this, repository);
         mSearchPresenter.start();
     }
 
-    private void addAction(){
+    private void addAction() {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setOnQueryTextListener(this);

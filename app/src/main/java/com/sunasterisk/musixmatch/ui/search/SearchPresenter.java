@@ -16,11 +16,10 @@ import java.util.List;
  */
 public class SearchPresenter implements SearchContract.Presenter {
 
-
     private SearchContract.View mView;
     private TrackRepository mTrackRepository;
 
-    public SearchPresenter(SearchContract.View view, TrackRepository trackRepository){
+    public SearchPresenter(SearchContract.View view, TrackRepository trackRepository) {
         mTrackRepository = trackRepository;
         mView = view;
     }
@@ -44,7 +43,7 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void saveRecentSearch(String query, Context context) {
+    public void saveRecentSearch(Context context, String query) {
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
                 SuggestionProvider.AUTHORITY,
                 SuggestionProvider.MODE_QUERY);
@@ -53,26 +52,9 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void onQueryTextSubmit(String query) {
-            mView.showProgressBar(true);
-            mView.showIntroSearch(false);
-            setAddSearchKey(true);
-            setSearchKey(query);
-            loadSearchResult(query);
-    }
-
-    @Override
-    public String getSearchKey() {
-        return null;
-    }
-
-    @Override
-    public void setSearchKey(String searchKey) {
-
-    }
-
-    @Override
-    public void setAddSearchKey(boolean isAdding) {
-
+        mView.showProgressBar(true);
+        mView.showIntroSearch(false);
+        loadSearchResult(query);
     }
 
     @Override
