@@ -63,12 +63,12 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
         @Override
         public void onClick(View v) {
             if (mCallback != null) {
-                mCallback.onTrackClickListener(mTrack);
+                mCallback.onTrackClick(mTrack);
             }
         }
     }
 
     public interface OnItemClickListener {
-        void onTrackClickListener(Track track);
+        void onTrackClick(Track track);
     }
 }

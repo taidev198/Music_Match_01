@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        if (checkPermission()) {
+        if (isAllowPermission()) {
             goToHomeScreen();
         } else finish();
     }
@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         }, TIME_DELAY);
     }
 
-    private boolean checkPermission() {
+    private boolean isAllowPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : PERMISSIONS) {
                 if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {

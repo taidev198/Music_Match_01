@@ -13,17 +13,9 @@ import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import java.util.List;
 
 public class TracksFragment extends BaseFragment implements TracksContract.View, TracksAdapter.OnItemClickListener {
-    private static TracksFragment mInstance;
     private RecyclerView mRecyclerView;
     private TracksContract.Presenter mPresenter;
     private TracksAdapter mAdapter;
-
-    public static TracksFragment getInstance() {
-        if (mInstance == null) {
-            mInstance = new TracksFragment();
-        }
-        return mInstance;
-    }
 
     @Override
     public int getLayoutResource() {
@@ -33,7 +25,7 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     @Override
     public void initComponents(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_tracks);
-        mPresenter = new TracksPresenter(TrackRepository.getInstance(new TrackLocalDataSource(getActivity())), this);
+        mPresenter = new TracksPresenter(TrackRepository.getInstance(TrackLocalDataSource.getInstance(getActivity())), this);
     }
 
     @Override
@@ -53,6 +45,6 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     }
 
     @Override
-    public void onTrackClickListener(Track track) {
+    public void onTrackClick(Track track) {
     }
 }
