@@ -14,8 +14,16 @@ import java.util.List;
 
 public class TrackLocalDataSource implements TrackDataSource.Local {
     private Context mContext;
+    private static TrackLocalDataSource sInstance;
 
-    public TrackLocalDataSource(Context context) {
+    public static TrackLocalDataSource getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new TrackLocalDataSource(context);
+        }
+        return sInstance;
+    }
+
+    private TrackLocalDataSource(Context context) {
         mContext = context;
     }
 
