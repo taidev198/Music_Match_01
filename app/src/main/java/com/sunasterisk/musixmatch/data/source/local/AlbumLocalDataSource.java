@@ -13,9 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumLocalDataSource implements AlbumDataSource.Local {
+    private static AlbumLocalDataSource sInstance;
     private Context mContext;
 
-    public AlbumLocalDataSource(Context context) {
+    public static AlbumLocalDataSource getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new AlbumLocalDataSource(context);
+        }
+        return sInstance;
+    }
+
+    private AlbumLocalDataSource(Context context) {
         mContext = context;
     }
 

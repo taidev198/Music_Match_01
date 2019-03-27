@@ -7,10 +7,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.sunasterisk.musixmatch.R;
+import com.sunasterisk.musixmatch.data.model.Album;
+import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
+import com.sunasterisk.musixmatch.ui.playing.thumbnail.ThumbnailFragment;
+import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.utils.widget.RepeatButtonView;
 
-public class PlayingActivity extends BaseActivity {
+import java.util.List;
+
+public class PlayingActivity extends BaseActivity implements TracksFragment.OnTrackClickListener, ThumbnailFragment.OnGetAlbums {
     private TextView mTextTrackName;
     private TextView mTextArtistName;
     private TextView mTextCurrentTime;
@@ -23,6 +29,8 @@ public class PlayingActivity extends BaseActivity {
     private ImageButton mButtonFavorite;
     private ViewPager mViewPager;
     private TabLayout mTabDots;
+    private PlayingViewPagerAdapter mPagerAdapter;
+    private List<Album> mAlbums;
 
     @Override
     protected int getLayoutResource() {
@@ -43,9 +51,27 @@ public class PlayingActivity extends BaseActivity {
         mButtonFavorite = findViewById(R.id.button_favorite);
         mViewPager = findViewById(R.id.view_pager);
         mTabDots = findViewById(R.id.tab_dots);
+        mPagerAdapter = new PlayingViewPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setCurrentItem(PlayingViewPagerAdapter.THUMB_NAIL);
+        mTabDots.setupWithViewPager(mViewPager);
     }
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    public void onPlayed(Track track) {
+        for (Album album : mAlbums) {
+            if (track.getAlbumId() == album.getAlbumId()) {
+                ThumbnailFragment.getInstance().setImageTrack(album.getAlbumArt());
+            }
+        }
+    }
+
+    @Override
+    public void onGetAlbumsSuccess(List<Album> albums) {
+        mAlbums = albums;
     }
 }
