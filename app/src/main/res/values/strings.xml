@@ -4,23 +4,10 @@
     <string name="menu_nav_home">Home</string>
     <string name="menu_nav_music">Music</string>
     <string name="menu_nav_search">Search</string>
-    <!--dimen-->
-     <!--margin-->
-    <dimen name="margin_8">8dp</dimen>
-    <dimen name="margin_10">10dp</dimen>
-    <dimen name="margin_12">12dp</dimen>
-    <dimen name="margin_14">14dp</dimen>
-    <dimen name="margin_16">16dp</dimen>
-    <dimen name="margin_18">18dp</dimen>
-    <dimen name="margin_20">20dp</dimen>
-    <dimen name="margin_24">24dp</dimen>
-    <dimen name="margin_32">32dp</dimen>
-    <dimen name="margin_36">36dp</dimen>
-    <dimen name="margin_165">165dp</dimen>
-    <!--layout-->
-    <dimen name="card_corner_border_logo">40dp</dimen>
-    <dimen name="border_logo_width">80dp</dimen>
-    <dimen name="border_logo_height">80dp</dimen>
-    <dimen name="elevation_border_logo">12dp</dimen>
-    <dimen name="inner_radius_border_logo">10dp</dimen>
+    <!--search-->
+    <string name="text_title_intro_search">Search the world\'\s largest lyrics catalog</string>
+    <string name="text_search_hint">Types title, artist or lyrics</string>
+    <string name="text_clear_history_search">Clear History Search</string>
+    <string name="text_view_more_search">View More</string>
+    <string name="text_results_search">RESULTS</string>
 </resources>
