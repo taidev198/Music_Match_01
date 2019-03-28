@@ -10,4 +10,6 @@
     <string name="text_clear_history_search">Clear History Search</string>
     <string name="text_view_more_search">View More</string>
     <string name="text_results_search">RESULTS</string>
+    <string name="text_menu_show_lyrics">Show lyrics</string>
+    <string name="text_menu_go_album">Go to album</string>
 </resources>

@@ -3,6 +3,12 @@ package com.sunasterisk.musixmatch.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sunasterisk.musixmatch.utils.Constants;
+import com.sunasterisk.musixmatch.utils.TrackLoaderUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Track implements Parcelable {
     private int mTrackId;
     private String mTrackName;
@@ -26,6 +32,14 @@ public class Track implements Parcelable {
         mSize = builder.mSize;
     }
 
+    public Track(JSONObject jsonObject) throws JSONException {
+        mTrackId = jsonObject.getInt(Constants.JSonKey.TRACK_ID);
+        mTrackName = jsonObject.getString(Constants.JSonKey.TRACK_NAME);
+        mAlbumId = jsonObject.getInt(Constants.JSonKey.ALBUM_ID);
+        mAlbumName = jsonObject.getString(Constants.JSonKey.ARTIST_NAME);
+        mArtistName = jsonObject.getString(Constants.JSonKey.ARTIST_NAME);
+    }
+
     protected Track(Parcel in) {
         mTrackId = in.readInt();
         mTrackName = in.readString();
@@ -38,7 +52,7 @@ public class Track implements Parcelable {
         mSize = in.readLong();
     }
 
-    public static final Creator<Track> CREATOR = new Creator<Track>() {
+    public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
         @Override
         public Track createFromParcel(Parcel in) {
             return new Track(in);
@@ -167,4 +181,5 @@ public class Track implements Parcelable {
             return new Track(this);
         }
     }
+
 }

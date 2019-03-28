@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sunasterisk.musixmatch">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -16,6 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.search.SearchActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -36,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".ui.search.SuggestionProvider"
+            android:authorities="com.sunasterisk.musixmatch.ui.search.SuggestionProvider" />
     </application>
 
 </manifest>
