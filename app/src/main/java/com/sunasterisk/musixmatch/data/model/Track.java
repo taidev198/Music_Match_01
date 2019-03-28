@@ -1,11 +1,15 @@
 package com.sunasterisk.musixmatch.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.TrackLoaderUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Track {
+public class Track implements Parcelable {
     private int mTrackId;
     private String mTrackName;
     private int mAlbumId;
@@ -29,12 +33,36 @@ public class Track {
     }
 
     public Track(JSONObject jsonObject) throws JSONException {
-        mTrackId = jsonObject.getInt(JSonKey.TRACK_ID);
-        mTrackName = jsonObject.getString(JSonKey.TRACK_NAME);
-        mAlbumId = jsonObject.getInt(JSonKey.ALBUM_ID);
-        mAlbumName = jsonObject.getString(JSonKey.ARTIST_NAME);
-        mArtistName = jsonObject.getString(JSonKey.ARTIST_NAME);
+        mTrackId = jsonObject.getInt(Constants.JSonKey.TRACK_ID);
+        mTrackName = jsonObject.getString(Constants.JSonKey.TRACK_NAME);
+        mAlbumId = jsonObject.getInt(Constants.JSonKey.ALBUM_ID);
+        mAlbumName = jsonObject.getString(Constants.JSonKey.ARTIST_NAME);
+        mArtistName = jsonObject.getString(Constants.JSonKey.ARTIST_NAME);
     }
+
+    protected Track(Parcel in) {
+        mTrackId = in.readInt();
+        mTrackName = in.readString();
+        mAlbumId = in.readInt();
+        mAlbumName = in.readString();
+        mArtistId = in.readInt();
+        mArtistName = in.readString();
+        mData = in.readString();
+        mDuration = in.readLong();
+        mSize = in.readLong();
+    }
+
+    public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 
     public int getTrackId() {
         return mTrackId;
@@ -70,6 +98,24 @@ public class Track {
 
     public long getSize() {
         return mSize;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(mTrackId);
+        parcel.writeString(mTrackName);
+        parcel.writeInt(mAlbumId);
+        parcel.writeString(mAlbumName);
+        parcel.writeInt(mArtistId);
+        parcel.writeString(mArtistName);
+        parcel.writeString(mData);
+        parcel.writeLong(mDuration);
+        parcel.writeLong(mSize);
     }
 
     public static class Builder {
@@ -136,19 +182,4 @@ public class Track {
         }
     }
 
-    public class JSonKey {
-        public static final String TRACK_LIST = "track_list";
-        public static final String MESSAGE = "message";
-        public static final String BODY = "body";
-        public static final String COMMON_TRACK_ID = "commontrack_id";
-        public static final String TRACK_NAME = "track_name";
-        public static final String TRACK_ID = "track_id";
-        public static final String TITLE = "title";
-        public static final String GENRE = "genre";
-        public static final String ARTIST_NAME = "artist_name";
-        public static final String ARTIST_ID = "artist_id";
-        public static final String ALBUM_NAME = "album_name";
-        public static final String ALBUM_ID = "album_id";
-        public static final String TRACK = "track";
-    }
 }

@@ -43,12 +43,12 @@ public class TrackLoaderUtils {
     public static List<Track> getTracksFromJSON(String jsonString) throws JSONException {
         List<Track> tracks = new ArrayList<>();
         JSONObject root = new JSONObject(jsonString);
-        JSONArray songsCollection = root.getJSONObject(Track.JSonKey.MESSAGE)
-                .getJSONObject(Track.JSonKey.BODY)
-                .getJSONArray(Track.JSonKey.TRACK_LIST);
+        JSONArray songsCollection = root.getJSONObject(Constants.JSonKey.MESSAGE)
+                .getJSONObject(Constants.JSonKey.BODY)
+                .getJSONArray(Constants.JSonKey.TRACK_LIST);
         for (int i = 0; i < songsCollection.length(); i++) {
             JSONObject jsonObject = songsCollection.getJSONObject(i)
-                    .getJSONObject(Track.JSonKey.TRACK);
+                    .getJSONObject(Constants.JSonKey.TRACK);
             Track track = new Track(jsonObject);
             tracks.add(track);
         }

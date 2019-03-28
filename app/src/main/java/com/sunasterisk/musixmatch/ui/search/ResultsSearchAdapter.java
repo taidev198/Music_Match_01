@@ -31,7 +31,7 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.track_card, viewGroup, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.search_track_card, viewGroup, false);
         return new MyViewHolder(v);
     }
 
@@ -59,8 +59,8 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            mSubtitle = itemView.findViewById(R.id.subtitle_info);
-            mTitle = itemView.findViewById(R.id.title_info);
+            mSubtitle = itemView.findViewById(R.id.text_subtitle_info);
+            mTitle = itemView.findViewById(R.id.text_title_info);
             mImageMore = itemView.findViewById(R.id.image_more);
             itemView.setOnClickListener(this);
             itemView.setLongClickable(true);
@@ -92,11 +92,9 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
             popup.inflate(R.menu.options_menu_search);
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.play_item:
+                    case R.id.show_lyrics:
                         return true;
-                    case R.id.play_next_item:
-                        return true;
-                    case R.id.add_to_playlist:
+                    case R.id.go_to_artist:
                         return true;
                     default:
                         return false;

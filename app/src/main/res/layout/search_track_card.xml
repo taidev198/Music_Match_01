@@ -3,78 +3,75 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <!-- A CardView that contains a TextView -->
+
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/card_view_results_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:elevation="@dimen/dp_10"
         android:foreground="?attr/selectableItemBackground"
         android:padding="@dimen/dp_10"
-        android:stateListAnimator="@anim/animation"
-        card_view:cardCornerRadius="5dp">
+        android:stateListAnimator="@anim/animation">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="15dp"
+            android:paddingStart="@dimen/dp_10"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10">
 
             <ImageView
-                android:id="@+id/icon_info"
+                android:id="@+id/image_icon_info"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/dp_8"
                 android:background="@drawable/ic_logo"
                 card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintStart_toStartOf="@+id/guideline"
+                card_view:layout_constraintStart_toStartOf="@+id/guideline_percent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/title_info"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_title_info"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@id/icon_info"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
-                android:text="Hello World"
-                android:textSize="18sp"
-                card_view:layout_constraintStart_toEndOf="@+id/icon_info"
+                android:layout_alignStart="@id/image_icon_info"
+                android:layout_marginStart="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:textSize="@dimen/sp_18"
+                card_view:layout_constraintEnd_toStartOf="@+id/image_more"
+                card_view:layout_constraintStart_toEndOf="@+id/image_icon_info"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/subtitle_info"
+                android:id="@+id/text_subtitle_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title_info"
-                android:text="P!nk"
-                android:textSize="12sp"
-                card_view:layout_constraintStart_toStartOf="@+id/title_info"
-                card_view:layout_constraintTop_toBottomOf="@+id/title_info" />
+                android:layout_below="@id/text_title_info"
+                android:textSize="@dimen/sp_12"
+                card_view:layout_constraintStart_toStartOf="@+id/text_title_info"
+                card_view:layout_constraintTop_toBottomOf="@+id/text_title_info" />
 
             <ImageView
                 android:id="@+id/image_more"
-                android:layout_width="0dp"
-                android:layout_height="28dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_16"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.724"
                 card_view:srcCompat="@drawable/ic_more" />
 
             <android.support.constraint.Guideline
-                android:id="@+id/guideline"
+                android:id="@+id/guideline_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                card_view:layout_constraintGuide_begin="20dp"
+                card_view:layout_constraintGuide_begin="@dimen/dp_20"
                 card_view:layout_constraintGuide_percent="0.01" />
-
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

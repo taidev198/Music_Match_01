@@ -5,9 +5,11 @@
     <string name="menu_nav_music">Music</string>
     <string name="menu_nav_search">Search</string>
     <!--search-->
-    <string name="title_intro_search">Search the world\'\s largest lyrics catalog</string>
+    <string name="text_title_intro_search">Search the world\'\s largest lyrics catalog</string>
     <string name="text_search_hint">Types title, artist or lyrics</string>
-    <string name="clear_history_search">Clear History Search</string>
-    <string name="view_more_search">View More</string>
-    <string name="results_search">RESULTS</string>
+    <string name="text_clear_history_search">Clear History Search</string>
+    <string name="text_view_more_search">View More</string>
+    <string name="text_results_search">RESULTS</string>
+    <string name="text_menu_show_lyrics">Show lyrics</string>
+    <string name="text_menu_go_artist">Go to artist</string>
 </resources>

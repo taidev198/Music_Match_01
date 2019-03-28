@@ -2,8 +2,8 @@ package com.sunasterisk.musixmatch.ui.search;
 
 import android.content.Context;
 
-import com.sunasterisk.musixmatch.BasePresenter;
-import com.sunasterisk.musixmatch.BaseView;
+import com.sunasterisk.musixmatch.ui.base.BasePresenter;
+import com.sunasterisk.musixmatch.ui.base.BaseView;
 import com.sunasterisk.musixmatch.data.model.Track;
 
 import java.util.List;

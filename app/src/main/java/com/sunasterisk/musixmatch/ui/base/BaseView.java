@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch;
+package com.sunasterisk.musixmatch.ui.base;
 
 public interface BaseView<T> {
 

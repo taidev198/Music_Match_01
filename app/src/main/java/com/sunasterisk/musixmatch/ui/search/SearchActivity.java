@@ -4,9 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SearchRecentSuggestions;
 import android.support.constraint.Group;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,7 +13,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sunasterisk.musixmatch.BaseActivity;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
@@ -37,10 +35,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     private Group mResultsSearchGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        initComponent();
+        initComponents();
         initData();
         loadData();
     }
@@ -51,7 +49,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     }
 
     @Override
-    protected void initComponent() {
+    protected void initComponents() {
         mTextResults = findViewById(R.id.text_results);
         mProgressBar = findViewById(R.id.search_progress_bar);
         mSearchView = findViewById(R.id.search_view);

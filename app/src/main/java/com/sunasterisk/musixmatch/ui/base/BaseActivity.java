@@ -1,25 +1,22 @@
-package com.sunasterisk.musixmatch;
+package com.sunasterisk.musixmatch.ui.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- * Created by superme198 on 25,March,2019
- * in Music_Match__1.
- */
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
-        initComponent();
+        initComponents();
         initData();
     }
 
+    @LayoutRes
     protected abstract int getLayoutResource();
 
-    protected abstract void initComponent();
+    protected abstract void initComponents();
 
     protected abstract void initData();
 }
