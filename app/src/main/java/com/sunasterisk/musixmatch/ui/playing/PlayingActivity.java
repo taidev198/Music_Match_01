@@ -13,6 +13,7 @@ import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.playing.thumbnail.ThumbnailFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
+import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.widget.RepeatButtonView;
 
 import java.util.List;
@@ -66,11 +67,8 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnTr
     @Override
     public void onPlayed(Track track) {
         Fragment fragment = getSupportFragmentManager()
-                .findFragmentByTag("android:switcher:"
-                + R.id.view_pager
-                + ":"
-                + PlayingViewPagerAdapter.THUMB_NAIL);
-        if (fragment != null) {
+                .findFragmentByTag(Constants.FragmentTag.THUMB_NAIL);
+        if (fragment != null && fragment instanceof ThumbnailFragment) {
             ((ThumbnailFragment) fragment).getTrack(track);
             ((ThumbnailFragment) fragment).setImageTrack(mAlbums);
         }

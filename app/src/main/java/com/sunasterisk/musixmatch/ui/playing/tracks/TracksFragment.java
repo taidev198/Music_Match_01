@@ -43,9 +43,9 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     protected void initData() {
-        mPresenter = new TracksPresenter(TrackRepository
-                .getInstance(TrackLocalDataSource
-                .getInstance(getActivity())), this);
+        mPresenter = new TracksPresenter(
+                TrackRepository.getInstance(TrackLocalDataSource.getInstance(getActivity())),
+                this);
         mPresenter.getLocalTracks();
     }
 

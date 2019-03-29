@@ -44,9 +44,9 @@ public class ThumbnailFragment extends BaseFragment implements ThumbnailContract
 
     @Override
     protected void initData() {
-        mPresenter = new ThumbnailPresenter(AlbumRepository
-                .getInstance(AlbumLocalDataSource
-                        .getInstance(getActivity())), this);
+        mPresenter = new ThumbnailPresenter(
+                AlbumRepository.getInstance(AlbumLocalDataSource.getInstance(getActivity())),
+                this);
         mPresenter.getAlbums();
     }
 
