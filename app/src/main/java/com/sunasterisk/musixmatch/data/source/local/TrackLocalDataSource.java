@@ -3,6 +3,7 @@ package com.sunasterisk.musixmatch.data.source.local;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 
 import com.sunasterisk.musixmatch.data.model.Track;
@@ -15,7 +16,6 @@ import java.util.List;
 public class TrackLocalDataSource implements TrackDataSource.Local {
     private Context mContext;
     private static TrackLocalDataSource sInstance;
-    private Thread mThread;
 
     public static TrackLocalDataSource getInstance(Context context) {
         if (sInstance == null) {
@@ -30,9 +30,9 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
 
     @Override
     public void getTracks(Callback<List<Track>> callback) {
-        Runnable runnable = new Runnable() {
+        AsyncTask<Void, Void, List<Track>> asyncTask = new AsyncTask<Void, Void, List<Track>>() {
             @Override
-            public void run() {
+            protected List<Track> doInBackground(Void... voids) {
                 List<Track> tracks = new ArrayList<>();
                 ContentResolver resolver = mContext.getContentResolver();
                 Cursor cursor = resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -72,10 +72,17 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
                     tracks.add(track);
                     cursor.moveToNext();
                 }
-                callback.getDataSuccess(tracks);
+                return tracks;
+            }
+
+            @Override
+            protected void onPostExecute(List<Track> tracks) {
+                super.onPostExecute(tracks);
+                if (tracks.isEmpty() == false) {
+                    callback.getDataSuccess(tracks);
+                }
             }
         };
-        mThread = new Thread(runnable);
-        mThread.start();
+        asyncTask.execute();
     }
 }

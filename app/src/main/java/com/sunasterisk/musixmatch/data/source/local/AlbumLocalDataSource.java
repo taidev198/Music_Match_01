@@ -3,6 +3,7 @@ package com.sunasterisk.musixmatch.data.source.local;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 
 import com.sunasterisk.musixmatch.data.model.Album;
@@ -15,7 +16,6 @@ import java.util.List;
 public class AlbumLocalDataSource implements AlbumDataSource.Local {
     private static AlbumLocalDataSource sInstance;
     private Context mContext;
-    private Thread mThread;
 
     public static AlbumLocalDataSource getInstance(Context context) {
         if (sInstance == null) {
@@ -30,9 +30,9 @@ public class AlbumLocalDataSource implements AlbumDataSource.Local {
 
     @Override
     public void getAlbums(Callback<List<Album>> callback) {
-        Runnable runnable = new Runnable() {
+        AsyncTask<Void, Void, List<Album>> asyncTask = new AsyncTask<Void, Void, List<Album>>() {
             @Override
-            public void run() {
+            protected List<Album> doInBackground(Void... voids) {
                 List<Album> albums = new ArrayList<>();
                 ContentResolver resolver = mContext.getContentResolver();
                 Cursor cursor = resolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
@@ -63,10 +63,17 @@ public class AlbumLocalDataSource implements AlbumDataSource.Local {
                     albums.add(album);
                     cursor.moveToNext();
                 }
-                callback.getDataSuccess(albums);
+                return albums;
+            }
+
+            @Override
+            protected void onPostExecute(List<Album> albums) {
+                super.onPostExecute(albums);
+                if (albums.isEmpty() == false) {
+                    callback.getDataSuccess(albums);
+                }
             }
         };
-        mThread = new Thread(runnable);
-        mThread.start();
+        asyncTask.execute();
     }
 }
