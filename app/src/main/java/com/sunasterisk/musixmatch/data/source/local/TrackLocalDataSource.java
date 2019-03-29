@@ -78,7 +78,7 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
             @Override
             protected void onPostExecute(List<Track> tracks) {
                 super.onPostExecute(tracks);
-                if (tracks.isEmpty() == false) {
+                if (!tracks.isEmpty()) {
                     callback.getDataSuccess(tracks);
                 }
             }

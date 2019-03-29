@@ -69,7 +69,7 @@ public class AlbumLocalDataSource implements AlbumDataSource.Local {
             @Override
             protected void onPostExecute(List<Album> albums) {
                 super.onPostExecute(albums);
-                if (albums.isEmpty() == false) {
+                if (!albums.isEmpty()) {
                     callback.getDataSuccess(albums);
                 }
             }

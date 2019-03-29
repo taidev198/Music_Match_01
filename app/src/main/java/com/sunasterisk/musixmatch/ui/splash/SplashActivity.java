@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.ui.main.MainActivity;
-import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
