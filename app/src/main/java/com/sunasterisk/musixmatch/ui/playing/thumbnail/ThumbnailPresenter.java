@@ -1,5 +1,7 @@
 package com.sunasterisk.musixmatch.ui.playing.thumbnail;
 
+import android.os.AsyncTask;
+
 import com.sunasterisk.musixmatch.data.model.Album;
 import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.Callback;
@@ -17,18 +19,30 @@ public class ThumbnailPresenter implements ThumbnailContract.Presenter {
     }
 
     @Override
-    public List<Album> getAlbums() {
-        mRepository.getAlbums(new Callback<List<Album>>() {
+    public void getAlbums() {
+        AsyncTask<Void, Void, List<Album>> asyncTask = new AsyncTask<Void, Void, List<Album>>() {
             @Override
-            public void getDataSuccess(List<Album> albums) {
-                mAlbums = albums;
+            protected List<Album> doInBackground(Void... voids) {
+                mRepository.getAlbums(new Callback<List<Album>>() {
+                    @Override
+                    public void getDataSuccess(List<Album> albums) {
+                        mAlbums = albums;
+                    }
+
+                    @Override
+                    public void getDataFailure(Exception e) {
+                        mView.showError(e);
+                    }
+                });
+                return mAlbums;
             }
 
             @Override
-            public void getDataFailure(Exception e) {
-                mView.showError(e);
+            protected void onPostExecute(List<Album> albums) {
+                super.onPostExecute(albums);
+                mView.showAlbums(albums);
             }
-        });
-        return mAlbums;
+        };
+        asyncTask.execute();
     }
 }

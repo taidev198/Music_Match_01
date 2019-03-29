@@ -13,7 +13,8 @@ import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 
 import java.util.List;
 
-public class TracksFragment extends BaseFragment implements TracksContract.View, TracksAdapter.OnItemClickListener {
+public class TracksFragment extends BaseFragment implements TracksContract.View,
+        TracksAdapter.OnItemClickListener {
     private RecyclerView mRecyclerView;
     private TracksContract.Presenter mPresenter;
     private TracksAdapter mAdapter;
@@ -25,7 +26,8 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
         try {
             mCallback = (OnTrackClickListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnTrackClickListener");
+            throw new ClassCastException(context.toString()
+                    + " must implement OnTrackClickListener");
         }
     }
 
@@ -37,11 +39,13 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     @Override
     public void initComponents(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_tracks);
-        mPresenter = new TracksPresenter(TrackRepository.getInstance(TrackLocalDataSource.getInstance(getActivity())), this);
     }
 
     @Override
     protected void initData() {
+        mPresenter = new TracksPresenter(TrackRepository
+                .getInstance(TrackLocalDataSource
+                .getInstance(getActivity())), this);
         mPresenter.getLocalTracks();
     }
 

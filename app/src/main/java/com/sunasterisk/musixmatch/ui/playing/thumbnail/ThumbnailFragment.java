@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Album;
+import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.local.AlbumLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
@@ -15,25 +16,19 @@ import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import java.util.List;
 
 public class ThumbnailFragment extends BaseFragment implements ThumbnailContract.View {
-    private static ThumbnailFragment sInstance;
     private ImageView mImageTrack;
     private ThumbnailContract.Presenter mPresenter;
-    private OnGetAlbums mCallback;
-
-    public static ThumbnailFragment getInstance() {
-        if (sInstance == null) {
-            sInstance = new ThumbnailFragment();
-        }
-        return sInstance;
-    }
+    private OnGetAlbumsListener mCallback;
+    private Track mTrack;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (OnGetAlbums) context;
+            mCallback = (OnGetAlbumsListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnGetAlbums");
+            throw new ClassCastException(context.toString()
+                    + " must implement OnGetAlbumsListener");
         }
     }
 
@@ -45,16 +40,27 @@ public class ThumbnailFragment extends BaseFragment implements ThumbnailContract
     @Override
     protected void initComponents(View view) {
         mImageTrack = view.findViewById(R.id.image_track);
-        mPresenter = new ThumbnailPresenter(AlbumRepository.getInstance(AlbumLocalDataSource.getInstance(getActivity())), this);
     }
 
     @Override
     protected void initData() {
-        mCallback.onGetAlbumsSuccess(mPresenter.getAlbums());
+        mPresenter = new ThumbnailPresenter(AlbumRepository
+                .getInstance(AlbumLocalDataSource
+                        .getInstance(getActivity())), this);
+        mPresenter.getAlbums();
     }
 
-    public void setImageTrack(String albumArt) {
-        mImageTrack.setImageDrawable(Drawable.createFromPath(albumArt));
+    public void setImageTrack(List<Album> albums) {
+        for (Album album : albums) {
+            if (album.getAlbumId() == mTrack.getAlbumId()) {
+                mImageTrack.setImageDrawable(Drawable.createFromPath(album.getAlbumArt()));
+            }
+        }
+    }
+
+    @Override
+    public void showAlbums(List<Album> albums) {
+        mCallback.onGetAlbumsSuccess(albums);
     }
 
     @Override
@@ -68,7 +74,11 @@ public class ThumbnailFragment extends BaseFragment implements ThumbnailContract
         mCallback = null;
     }
 
-    public interface OnGetAlbums {
+    public void getTrack(Track track) {
+        mTrack = track;
+    }
+
+    public interface OnGetAlbumsListener {
         void onGetAlbumsSuccess(List<Album> albums);
     }
 }

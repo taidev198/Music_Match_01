@@ -1,6 +1,7 @@
 package com.sunasterisk.musixmatch.ui.playing;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -16,7 +17,8 @@ import com.sunasterisk.musixmatch.utils.widget.RepeatButtonView;
 
 import java.util.List;
 
-public class PlayingActivity extends BaseActivity implements TracksFragment.OnTrackClickListener, ThumbnailFragment.OnGetAlbums {
+public class PlayingActivity extends BaseActivity implements TracksFragment.OnTrackClickListener,
+        ThumbnailFragment.OnGetAlbumsListener {
     private TextView mTextTrackName;
     private TextView mTextArtistName;
     private TextView mTextCurrentTime;
@@ -63,10 +65,14 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnTr
 
     @Override
     public void onPlayed(Track track) {
-        for (Album album : mAlbums) {
-            if (track.getAlbumId() == album.getAlbumId()) {
-                ThumbnailFragment.getInstance().setImageTrack(album.getAlbumArt());
-            }
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag("android:switcher:"
+                + R.id.view_pager
+                + ":"
+                + PlayingViewPagerAdapter.THUMB_NAIL);
+        if (fragment != null) {
+            ((ThumbnailFragment) fragment).getTrack(track);
+            ((ThumbnailFragment) fragment).setImageTrack(mAlbums);
         }
     }
 

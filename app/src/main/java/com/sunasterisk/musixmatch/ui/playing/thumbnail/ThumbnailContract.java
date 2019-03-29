@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface ThumbnailContract {
     interface Presenter {
-        List<Album> getAlbums();
+        void getAlbums();
     }
 
     interface View {
+        void showAlbums(List<Album> albums);
+
         void showError(Exception e);
     }
 }
