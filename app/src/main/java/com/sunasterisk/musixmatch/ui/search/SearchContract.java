@@ -1,6 +1,5 @@
 package com.sunasterisk.musixmatch.ui.search;
 
-import android.content.Context;
 
 import com.sunasterisk.musixmatch.ui.base.BasePresenter;
 import com.sunasterisk.musixmatch.ui.base.BaseView;
