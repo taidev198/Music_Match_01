@@ -39,7 +39,7 @@ public interface SearchContract {
 
         void saveRecentSearch(String query);
 
-        void onQueryTextSubmit(String query);
+        void getTrackFromAPI(String query);
 
     }
 }

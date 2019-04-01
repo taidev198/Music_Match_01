@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class SearchPresenter implements SearchContract.Presenter {
 
+    private static final int LIMITED_AMOUNT = 10;
     private SearchContract.View mView;
     private TrackRepository mTrackRepository;
-    private static final int LIMITED_AMOUNT = 10;
 
     public SearchPresenter(SearchContract.View view, TrackRepository trackRepository) {
         mTrackRepository = trackRepository;
@@ -51,7 +51,7 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void onQueryTextSubmit(String query) {
+    public void getTrackFromAPI(String query) {
         mView.showProgressBar();
         mView.hideIntroSearch();
         mView.hideResultSearchGroup();

@@ -121,7 +121,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mSearchPresenter.saveRecentSearch(query);
         mSearchView.setQuery(query, false);
         hideResultSearchGroup();
-        mSearchPresenter.onQueryTextSubmit(query);
+        mSearchPresenter.getTrackFromAPI(query);
         return true;
     }
 
@@ -134,7 +134,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         String recentQuery = intent.getStringExtra(SearchManager.QUERY);
-        mSearchPresenter.onQueryTextSubmit(recentQuery);
+        mSearchPresenter.getTrackFromAPI(recentQuery);
         mSearchView.setQuery(recentQuery, false);
     }
 
