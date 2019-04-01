@@ -14,9 +14,17 @@ import java.util.List;
  */
 public interface SearchContract {
     interface View extends BaseView<Presenter> {
-        void showIntroSearch(boolean isLoading);
+        void showIntroSearch();
 
-        void showProgressBar(boolean isLoading);
+        void hideIntroSearch();
+
+        void showResultSearchGroup();
+
+        void hideResultSearchGroup();
+
+        void showProgressBar();
+
+        void hideProgressBar();
 
         void showSearchResult(List<Track> tracks);
 
@@ -30,7 +38,7 @@ public interface SearchContract {
 
         void loadSearchResult(String searchKey);
 
-        void saveRecentSearch(Context context, String query);
+        void saveRecentSearch(String query);
 
         void onQueryTextSubmit(String query);
 

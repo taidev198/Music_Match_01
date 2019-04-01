@@ -32,40 +32,34 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.search_track_card, viewGroup, false);
-        return new MyViewHolder(v);
+        return new MyViewHolder(mContext, v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.mTitle.setText(mTracks.get(i).getTrackName());
-        myViewHolder.mSubtitle.setText(mTracks.get(i).getAlbumName());
-        myViewHolder.mImageMore.setOnClickListener((e) -> {
-            myViewHolder.createOption(myViewHolder.mImageMore);
-        });
+        myViewHolder.bindView(mTracks.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return mTracks.size();
+        return mTracks == null ? 0 : mTracks.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-            View.OnLongClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitle;
         private TextView mSubtitle;
         private ImageView mImageMore;
-        private boolean mChecker;
+        private Context mContext;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(Context context, @NonNull View itemView) {
             super(itemView);
+            mContext = context;
             mSubtitle = itemView.findViewById(R.id.text_subtitle_info);
             mTitle = itemView.findViewById(R.id.text_title_info);
             mImageMore = itemView.findViewById(R.id.image_more);
+            mImageMore.setOnClickListener(this);
             itemView.setOnClickListener(this);
-            itemView.setLongClickable(true);
-            itemView.setOnLongClickListener(this);
-
         }
 
         /**
@@ -73,22 +67,17 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
          */
         @Override
         public void onClick(View v) {
-            if (!mChecker) System.out.println(getAdapterPosition());
+            switch (v.getId()){
+                case R.id.image_more : showOptionMenu(null);
+                    break;
+                case R.layout.search_track_card :
+                    break;
+            }
         }
 
-        /**
-         * response for long click
-         */
-        @Override
-        public boolean onLongClick(View v) {
-            mChecker = false;
-            createOption(null);
-            return true;//true if the item consumed long click, else return false
-        }
-
-        public void createOption(View anchor) {
+        public void showOptionMenu(View anchor) {
             anchor = mImageMore;
-            PopupMenu popup = new PopupMenu(mContext, anchor);
+            PopupMenu popup = new PopupMenu(this.mContext, anchor);
             popup.inflate(R.menu.options_menu_search);
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
@@ -101,6 +90,11 @@ public class ResultsSearchAdapter extends RecyclerView.Adapter<ResultsSearchAdap
                 }
             });
             popup.show();
+        }
+
+        public void bindView(Track track) {
+            mTitle.setText(track.getTrackName());
+            mSubtitle.setText(track.getAlbumName());
         }
 
     }

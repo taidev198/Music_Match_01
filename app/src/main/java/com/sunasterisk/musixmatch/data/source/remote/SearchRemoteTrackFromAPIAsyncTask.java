@@ -20,7 +20,7 @@ public class SearchRemoteTrackFromAPIAsyncTask extends AsyncTask<String, Void, L
     private Exception mException;
     private String mSearchKey;
     private TrackDataSource.LoadTrackCallback mCallback;
-    public SearchRemoteTrackFromAPIAsyncTask(TrackDataSource.LoadTrackCallback callback, String searchKey){
+    public SearchRemoteTrackFromAPIAsyncTask(String searchKey, TrackDataSource.LoadTrackCallback callback ){
         mCallback = callback;
         mSearchKey = searchKey;
     }
@@ -32,9 +32,9 @@ public class SearchRemoteTrackFromAPIAsyncTask extends AsyncTask<String, Void, L
             String jsonString = TrackLoaderUtils.getJSONFromAPI(strings[0]);
             tracks = TrackLoaderUtils.getTracksFromJSON(jsonString);
         } catch (IOException e) {
-            e.printStackTrace();
+            mException = e;
         } catch (JSONException e) {
-            e.printStackTrace();
+            mException = e;
         }
         return tracks;
     }
@@ -42,11 +42,13 @@ public class SearchRemoteTrackFromAPIAsyncTask extends AsyncTask<String, Void, L
     @Override
     protected void onPostExecute(List<Track> tracks) {
         super.onPostExecute(tracks);
-        if (mCallback == null)
+        if (mCallback == null){
             return;
-        if (tracks == null)
+        }
+        if (mException == null) {
+            mCallback.onSongsLoaded(tracks);
+        } else {
             mCallback.onDataNotAvailable(mException);
-        else
-        mCallback.onSongsLoaded(tracks);
+        }
     }
 }

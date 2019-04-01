@@ -29,7 +29,7 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
 
     public static TrackRepository getInstance(TrackDataSource.Local local, TrackDataSource.RemoteDataSource remote) {
         if (sInstance == null) {
-            sInstance = new TrackRepository( local, remote );
+            sInstance = new TrackRepository(local, remote);
         }
         return sInstance;
     }

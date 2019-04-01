@@ -1,9 +1,8 @@
 package com.sunasterisk.musixmatch.ui.search;
 
-
-import android.content.Context;
 import android.provider.SearchRecentSuggestions;
 
+import com.sunasterisk.musixmatch.application.MusixMatchApplication;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.TrackDataSource;
@@ -18,6 +17,7 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View mView;
     private TrackRepository mTrackRepository;
+    private static final int LIMITED_AMOUNT = 10;
 
     public SearchPresenter(SearchContract.View view, TrackRepository trackRepository) {
         mTrackRepository = trackRepository;
@@ -26,41 +26,43 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void loadSearchResult(String searchKey) {
-        mTrackRepository.searchTrack(searchKey, 10, new TrackDataSource.LoadTrackCallback() {
+        mTrackRepository.searchTrack(searchKey, LIMITED_AMOUNT, new TrackDataSource.LoadTrackCallback() {
             @Override
             public void onSongsLoaded(List<Track> tracks) {
-                mView.showProgressBar(false);
+                mView.hideProgressBar();
                 mView.showSearchResult(tracks);
-                mView.showIntroSearch(false);
+                mView.hideIntroSearch();
             }
 
             @Override
             public void onDataNotAvailable(Exception e) {
-                mView.showProgressBar(false);
+                mView.hideProgressBar();
                 mView.showError(e.getMessage());
             }
         });
     }
 
     @Override
-    public void saveRecentSearch(Context context, String query) {
-        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
-                                                                              SuggestionProvider.AUTHORITY,
-                                                                              SuggestionProvider.MODE_QUERY);
+    public void saveRecentSearch(String query) {
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(MusixMatchApplication.getInstance(),
+                SuggestionProvider.AUTHORITY,
+                SuggestionProvider.MODE_QUERY);
         suggestions.saveRecentQuery(query, null);
     }
 
     @Override
     public void onQueryTextSubmit(String query) {
-        mView.showProgressBar(true);
-        mView.showIntroSearch(false);
+        mView.showProgressBar();
+        mView.hideIntroSearch();
+        mView.hideResultSearchGroup();
         loadSearchResult(query);
     }
 
     @Override
     public void start() {
-        mView.showProgressBar(false);
-        mView.showIntroSearch(true);
+        mView.hideProgressBar();
+        mView.showIntroSearch();
+        mView.hideResultSearchGroup();
     }
 
 }

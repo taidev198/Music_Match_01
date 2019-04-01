@@ -24,7 +24,6 @@ import java.util.List;
 public class SearchActivity extends BaseActivity implements SearchContract.View,
         SearchView.OnQueryTextListener {
 
-    private static final String TAG = "SearchActivity";
     private TextView mTextResults;
     private ProgressBar mProgressBar;
     private SearchView mSearchView;
@@ -40,7 +39,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         setContentView(R.layout.activity_search);
         initComponents();
         initData();
-        loadData();
     }
 
     @Override
@@ -62,34 +60,46 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     @Override
     protected void initData() {
         addAction();
+        TrackRepository repository = TrackRepository.getInstance(null, TrackRemoteDataSource.getInstance());
+        mSearchPresenter = new SearchPresenter(this, repository);
+        mSearchPresenter.start();
     }
 
     @Override
-    public void showIntroSearch(boolean isLoading) {
-        if (isLoading) {
-            mIntroSearchGroup.setVisibility(View.VISIBLE);
-        } else {
-            mIntroSearchGroup.setVisibility(View.GONE);
-        }
+    public void showIntroSearch() {
+        mIntroSearchGroup.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showProgressBar(boolean isLoading) {
-        if (isLoading) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mResultsSearchGroup.setVisibility(View.GONE);
-        } else {
-            mProgressBar.setVisibility(View.GONE);
-        }
+    public void hideIntroSearch() {
+        mIntroSearchGroup.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showResultSearchGroup() {
+        mResultsSearchGroup.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideResultSearchGroup() {
+        mResultsSearchGroup.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showSearchResult(List<Track> tracks) {
-        mResultsSearchGroup.setVisibility(View.VISIBLE);
-        mIntroSearchGroup.setVisibility(View.GONE);
-        mAdapter = new ResultsSearchAdapter(this, tracks);
-        mRecyclerView.setAdapter(mAdapter);
+        showResultSearchGroup();
+        hideIntroSearch();
+        displayTrack(tracks);
     }
 
     @Override
@@ -108,9 +118,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mSearchPresenter.saveRecentSearch(getApplicationContext(), query);
+        mSearchPresenter.saveRecentSearch(query);
         mSearchView.setQuery(query, false);
-        mResultsSearchGroup.setVisibility(View.GONE);
+        hideResultSearchGroup();
         mSearchPresenter.onQueryTextSubmit(query);
         return true;
     }
@@ -128,10 +138,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mSearchView.setQuery(recentQuery, false);
     }
 
-    private void loadData() {
-        TrackRepository repository = TrackRepository.getInstance(null, TrackRemoteDataSource.getInstance());
-        mSearchPresenter = new SearchPresenter(this, repository);
-        mSearchPresenter.start();
+    private void displayTrack(List<Track> tracks) {
+        mAdapter = new ResultsSearchAdapter(this, tracks);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void addAction() {

@@ -1,12 +1,11 @@
 package com.sunasterisk.musixmatch.data.source.remote;
 
-import android.util.Log;
+
+import android.net.Uri;
 
 import com.sunasterisk.musixmatch.data.source.TrackDataSource;
 import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.Methods;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by superme198 on 20,March,2019
@@ -37,30 +36,24 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
     }
 
     private void getSongsBySearchKey(String searchKey, int limit, TrackDataSource.LoadTrackCallback callBack) {
-        String url = Constants.BASE_URL
-                                    +Constants.VERSION
-                                    + Constants.URL_DELIM
-                                    +Methods.TRACK_SEARCH
-                                    +"?"
-                                    +Constants.API_KEY
-                                    +"&"
-                                    + Constants.QUERY_TRACK
-                                    +"="
-                +searchKey;
-        new SearchRemoteTrackFromAPIAsyncTask(callBack, searchKey).execute(url);
+        Uri.Builder urlBuilder = new Uri.Builder();
+        urlBuilder.scheme("http")
+                .encodedAuthority(Constants.BASE_URL)
+                .appendPath(Constants.VERSION)
+                .appendPath(Methods.TRACK_SEARCH)
+                .appendQueryParameter("apikey", Constants.API_KEY)
+                .appendQueryParameter(Constants.QUERY_TRACK, searchKey);
+        new SearchRemoteTrackFromAPIAsyncTask(searchKey, callBack).execute(urlBuilder.build().toString());
     }
 
     private void getSongsDataFromAPI(int albumID, int limit, TrackDataSource.LoadTrackCallback callBack) {
-        String url = Constants.BASE_URL
-                                    +Constants.VERSION
-                                    + Constants.URL_DELIM
-                                    + Methods.ALBUM_TRACKS_GET
-                                    +"?"
-                                    +Constants.API_KEY
-                                    +"&"
-                                    + Constants.ALBUM_ID
-                                    +"="
-                                    +albumID;
-        new SearchRemoteTrackFromAPIAsyncTask(callBack, "").execute(url);
+        Uri.Builder urlBuilder = new Uri.Builder();
+        urlBuilder.scheme("https")
+                .encodedAuthority(Constants.BASE_URL)
+                .appendPath(Constants.VERSION)
+                .appendPath(Methods.ALBUM_TRACKS_GET)
+                .appendQueryParameter("apikey", Constants.API_KEY)
+                .appendQueryParameter(Constants.ALBUM_ID, String.valueOf(albumID));
+        new SearchRemoteTrackFromAPIAsyncTask("", callBack).execute(urlBuilder.build().toString());
     }
 }
