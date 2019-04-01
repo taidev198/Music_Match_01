@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/show_lyrics"
+        android:title="@string/text_menu_show_lyrics" />
+    <item
+        android:id="@+id/go_to_artist"
+        android:title="@string/text_menu_go_album" />
+</menu>

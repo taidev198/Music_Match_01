@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    defaultConfig {
+        buildConfigField "String", "API_KEY", "\"${API_KEY}\""
+    }
+}
+
+android {
     compileSdkVersion 28
     defaultConfig {
+        manifestPlaceholders = [ apiKey:API_KEY ]
         applicationId "com.sunasterisk.musixmatch"
         minSdkVersion 22
         targetSdkVersion 28

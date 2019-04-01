@@ -3,6 +3,10 @@ package com.sunasterisk.musixmatch.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Track implements Parcelable {
     private int mTrackId;
     private String mTrackName;
@@ -26,6 +30,14 @@ public class Track implements Parcelable {
         mSize = builder.mSize;
     }
 
+    public Track(JSONObject jsonObject) throws JSONException {
+        mTrackId = jsonObject.getInt(JSonKey.TRACK_ID);
+        mTrackName = jsonObject.getString(JSonKey.TRACK_NAME);
+        mAlbumId = jsonObject.getInt(JSonKey.ALBUM_ID);
+        mAlbumName = jsonObject.getString(JSonKey.ARTIST_NAME);
+        mArtistName = jsonObject.getString(JSonKey.ARTIST_NAME);
+    }
+
     protected Track(Parcel in) {
         mTrackId = in.readInt();
         mTrackName = in.readString();
@@ -38,7 +50,7 @@ public class Track implements Parcelable {
         mSize = in.readLong();
     }
 
-    public static final Creator<Track> CREATOR = new Creator<Track>() {
+    public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
         @Override
         public Track createFromParcel(Parcel in) {
             return new Track(in);
@@ -167,4 +179,21 @@ public class Track implements Parcelable {
             return new Track(this);
         }
     }
+
+    public class JSonKey {
+        public static final String TRACK_LIST = "track_list";
+        public static final String MESSAGE = "message";
+        public static final String BODY = "body";
+        public static final String COMMON_TRACK_ID = "commontrack_id";
+        public static final String TRACK_NAME = "track_name";
+        public static final String TRACK_ID = "track_id";
+        public static final String TITLE = "title";
+        public static final String GENRE = "genre";
+        public static final String ARTIST_NAME = "artist_name";
+        public static final String ARTIST_ID = "artist_id";
+        public static final String ALBUM_NAME = "album_name";
+        public static final String ALBUM_ID = "album_id";
+        public static final String TRACK = "track";
+    }
+
 }
