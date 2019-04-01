@@ -5,6 +5,10 @@ package com.sunasterisk.musixmatch.utils;
  * in Music_Match_1.
  */
 public final class Constants {
+  
+    public class FragmentTag{
+        public static final String THUMB_NAIL = "android:switcher:2131230943:1";
+    }
     public static final String SCHEME = "http";
     public static final String BASE_URL = "api.musixmatch.com/ws";
     public static final String VERSION = "1.1";
@@ -17,5 +21,5 @@ public final class Constants {
     public static final int READ_TIMEOUT = 5000;
     public static final int CONNECTION_TIMEOUT = 5000;
     public static final String METHOD_GET = "GET";
-
+    
 }
