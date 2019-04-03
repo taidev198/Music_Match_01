@@ -9,16 +9,19 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
+import com.sunasterisk.musixmatch.ui.base.BaseRecyclerListener;
+import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
 import java.util.List;
 
 public class TracksFragment extends BaseFragment implements TracksContract.View,
-        TracksAdapter.OnItemClickListener {
-    private RecyclerView mRecyclerView;
-    private TracksContract.Presenter mPresenter;
-    private TracksAdapter mAdapter;
-    private OnTrackClickListener mCallback;
+                        OnRecyclerItemClickListener<Track> {
+    protected RecyclerView mRecyclerView;
+    protected TracksContract.Presenter mPresenter;
+    protected TracksAdapter mAdapter;
+    protected OnTrackClickListener mCallback;
 
     @Override
     public void onAttach(Context context) {
@@ -51,7 +54,9 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksAdapter(tracks, this);
+        mAdapter = new TracksAdapter(getContext());
+        mAdapter.setCallBack(this);
+        mAdapter.setItems(tracks);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -61,14 +66,19 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     }
 
     @Override
-    public void onTrackClick(Track track) {
-        mCallback.onPlayed(track);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         mCallback = null;
+    }
+
+    @Override
+    public void onItemClicked(Track item) {
+        mCallback.onPlayed(item);
+    }
+
+    @Override
+    public void onItemClicked(long id) {
+
     }
 
     public interface OnTrackClickListener {

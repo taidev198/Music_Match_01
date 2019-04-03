@@ -43,7 +43,7 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnTr
     @Override
     protected void initComponents() {
         mTextTrackName = findViewById(R.id.text_title_song);
-        mTextArtistName = findViewById(R.id.text_artist_name);
+        mTextArtistName = findViewById(R.id.text_subtitle);
         mTextCurrentTime = findViewById(R.id.text_current_time);
         mTextTotalTime = findViewById(R.id.text_total_time);
         mSeekBarProgressTime = findViewById(R.id.seek_bar_progress_time);
