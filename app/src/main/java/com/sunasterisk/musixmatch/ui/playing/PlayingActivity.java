@@ -120,18 +120,16 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     @Override
     public void onPlayed(Track track) {
         mPosition = mTracks.indexOf(track);
-        startService(MusicService.getIntentService(this, mTracks, mPosition, true));
+        startService(MusicService.getIntentService(this, mTracks, mPosition));
+        mMediaListener.play(track.getData());
         onTrackPlayed(track);
+        setTrackData(track);
     }
 
     @Override
     public void onGetTracksSuccess(List<Track> tracks) {
         mTracks = tracks;
-        if (mPosition != 0) {
-            startService(MusicService.getIntentService(this, tracks, mPosition, false));
-        } else {
-            startService(MusicService.getIntentService(this, tracks, 0, false));
-        }
+        startService(MusicService.getIntentService(this, tracks, mPosition));
     }
 
     @Override
@@ -166,8 +164,8 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
     @Override
     public void onTrackChange(Track track) {
-        setTrackData(track);
         onTrackPlayed(track);
+        setTrackData(track);
     }
 
     @Override
@@ -177,18 +175,19 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
                 mMediaListener.previous();
                 break;
             case R.id.button_play:
-                mMediaListener.pause();
+                if (mMediaListener.isPlaying()) {
+                    mMediaListener.pause();
+                } else mMediaListener.start();
                 break;
             case R.id.button_next:
                 mMediaListener.next();
                 break;
             case R.id.button_repeat:
+                mLoopState++;
                 if (mLoopState > LoopMode.SHUFFLE_ON) {
                     mLoopState = LoopMode.LOOP_OFF;
                 }
                 mMediaListener.setStateLoop(mLoopState);
-                mMediaListener.loop();
-                mLoopState++;
                 break;
         }
     }

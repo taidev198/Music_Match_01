@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 
 import com.sunasterisk.musixmatch.data.model.Track;
 
@@ -17,9 +18,10 @@ import java.util.Random;
 
 public class MusicService extends Service
         implements MediaListener, MediaPlayer.OnCompletionListener {
+    private static final int NEXT = 1;
+    private static final int PREVIOUS = -1;
     private static final String EXTRA_TRACK = "EXTRA_TRACK";
     private static final String EXTRA_TRACK_POSITION = "EXTRA_TRACK_POSITION";
-    private static final String EXTRA_TRACK_PLAY = "EXTRA_TRACK_PLAY";
     private OnMediaPlayerChangeListener mOnMediaPlayerChangeListener;
     private List<Track> mTracks;
     private MediaPlayer mMediaPlayer;
@@ -27,14 +29,12 @@ public class MusicService extends Service
     private int mPosition;
     private int mStateLoop;
     private Context mContext;
-    private boolean isFirstPlayed;
 
     public static Intent getIntentService(
-            Context context, List<Track> tracks, int position, boolean isPlay) {
+            Context context, List<Track> tracks, int position) {
         Intent intent = new Intent(context, MusicService.class);
         intent.putParcelableArrayListExtra(
                 EXTRA_TRACK, (ArrayList<? extends Parcelable>) tracks);
-        intent.putExtra(EXTRA_TRACK_PLAY, isPlay);
         intent.putExtra(EXTRA_TRACK_POSITION, position);
         return intent;
     }
@@ -49,7 +49,6 @@ public class MusicService extends Service
         super.onCreate();
         mContext = getApplicationContext();
         mRandom = new Random();
-        isFirstPlayed = false;
     }
 
     @Override
@@ -61,11 +60,6 @@ public class MusicService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPosition = intent.getIntExtra(EXTRA_TRACK_POSITION, 0);
         mTracks = intent.getParcelableArrayListExtra(EXTRA_TRACK);
-        if (intent.getBooleanExtra(EXTRA_TRACK_PLAY, false)) {
-            playNewTrack();
-        } else {
-            mOnMediaPlayerChangeListener.onTrackChange(getCurrentTrack());
-        }
         return START_NOT_STICKY;
     }
 
@@ -86,16 +80,9 @@ public class MusicService extends Service
 
     @Override
     public void pause() {
-        if (mMediaPlayer != null && !isPlaying() && isFirstPlayed) {
-            mOnMediaPlayerChangeListener.onMediaStateChange(true);
-            start();
-        } else if (mMediaPlayer != null && isPlaying() && isFirstPlayed) {
+        if (mMediaPlayer != null && isPlaying()) {
             mOnMediaPlayerChangeListener.onMediaStateChange(false);
             mMediaPlayer.pause();
-        } else {
-            play(getCurrentUri());
-            mOnMediaPlayerChangeListener.onMediaStateChange(true);
-            isFirstPlayed = true;
         }
     }
 
@@ -137,6 +124,7 @@ public class MusicService extends Service
     @Override
     public void setStateLoop(int state) {
         mStateLoop = state;
+        mOnMediaPlayerChangeListener.onLoopStateChange(state);
     }
 
     @Override
@@ -147,6 +135,7 @@ public class MusicService extends Service
     @Override
     public void start() {
         if (mMediaPlayer != null) {
+            mOnMediaPlayerChangeListener.onMediaStateChange(true);
             mMediaPlayer.start();
         }
     }
@@ -157,6 +146,7 @@ public class MusicService extends Service
         Uri uri = Uri.parse(uriString);
         mMediaPlayer = MediaPlayer.create(mContext, uri);
         mMediaPlayer.setOnCompletionListener(this);
+        mOnMediaPlayerChangeListener.onTrackChange(getCurrentTrack());
         mOnMediaPlayerChangeListener.onMediaStateChange(true);
         start();
     }
@@ -164,56 +154,27 @@ public class MusicService extends Service
     @Override
     public void previous() {
         destroyMusic();
-        if (mStateLoop == LoopMode.SHUFFLE_ON) {
-            mPosition = mRandom.nextInt(mTracks.size() - 1);
-        } else if (mPosition == 0) {
-            mPosition = mTracks.size() - 1;
-        } else {
-            mPosition--;
-        }
-        playNewTrack();
+        changePosition(PREVIOUS);
+        play(getCurrentUri());
     }
 
     @Override
     public void next() {
         destroyMusic();
-        if (mStateLoop == LoopMode.SHUFFLE_ON) {
-            mPosition = mRandom.nextInt(mTracks.size() - 1);
-        } else if (mPosition == mTracks.size() - 1) {
-            mPosition = 0;
-        } else {
-            mPosition++;
-        }
-        playNewTrack();
-    }
-
-    @Override
-    public void loop() {
-        mOnMediaPlayerChangeListener.onLoopStateChange(mStateLoop);
-        switch (mStateLoop) {
-            case LoopMode.LOOP_OFF:
-                mStateLoop = LoopMode.LOOP_ONE;
-                break;
-            case LoopMode.LOOP_ONE:
-                mStateLoop = LoopMode.LOOP_ALL;
-                break;
-            case LoopMode.LOOP_ALL:
-                mStateLoop = LoopMode.SHUFFLE_ON;
-                break;
-            case LoopMode.SHUFFLE_ON:
-                mStateLoop = LoopMode.LOOP_OFF;
-            default:
-                break;
-        }
+        changePosition(NEXT);
+        play(getCurrentUri());
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        checkLoopMode();
+        onLoopModeChanged();
+    }
+
+    public MediaListener getMediaListener() {
+        return this;
     }
 
     private String getCurrentUri() {
-        destroyMusic();
         return mTracks.get(mPosition).getData();
     }
 
@@ -225,17 +186,15 @@ public class MusicService extends Service
         }
     }
 
-    private void playNewTrack() {
-        mOnMediaPlayerChangeListener.onTrackChange(getCurrentTrack());
-        play(getCurrentUri());
-    }
-
-    private void checkLoopMode() {
+    /**
+     * <p> This method will check loop mode when current track has finished </p>
+     */
+    private void onLoopModeChanged() {
         switch (mStateLoop) {
             case LoopMode.LOOP_OFF:
                 if (mPosition < mTracks.size() - 1) {
                     mPosition++;
-                    playNewTrack();
+                    play(getCurrentUri());
                 } else {
                     mPosition = 0;
                     seek(0);
@@ -253,19 +212,29 @@ public class MusicService extends Service
                 } else {
                     mPosition++;
                 }
-                playNewTrack();
+                play(getCurrentUri());
                 break;
             case LoopMode.SHUFFLE_ON:
                 if (mPosition < mTracks.size()) {
                     mPosition = mRandom.nextInt(mTracks.size() + 1);
                 }
-                playNewTrack();
+                play(getCurrentUri());
                 break;
         }
     }
 
-    public MediaListener getMediaListener() {
-        return this;
+    @IntDef({PREVIOUS, NEXT})
+    @interface Action {
+    }
+
+    private void changePosition(@Action int actionValue) {
+        if (mStateLoop == LoopMode.SHUFFLE_ON) {
+            mPosition = mRandom.nextInt(mTracks.size() + 1);
+        } else if (mPosition == mTracks.size() - 1) {
+            mPosition = 0;
+        } else {
+            mPosition += actionValue;
+        }
     }
 
     public class MusicBinder extends Binder {
