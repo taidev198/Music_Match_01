@@ -32,7 +32,6 @@ public class TracksAdapter extends BaseAdapter<Track, OnRecyclerItemClickListene
     }
 
     public static class TrackViewHolder extends BaseTrackViewHolder<Track, OnRecyclerItemClickListener<Track>> {
-
         protected ImageView mOptionMore;
 
         public TrackViewHolder(Context context, View itemView, OnRecyclerItemClickListener<Track> mCallback) {
@@ -60,5 +59,4 @@ public class TracksAdapter extends BaseAdapter<Track, OnRecyclerItemClickListene
             }
         }
     }
-
 }

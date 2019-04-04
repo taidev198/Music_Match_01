@@ -7,7 +7,7 @@ package com.sunasterisk.musixmatch.utils;
 public final class Constants {
   
     public class FragmentTag{
-        public static final String THUMB_NAIL = "android:switcher:2131230943:1";
+        public static final String THUMB_NAIL = "android:switcher:2131230953:1";
     }
     public static final String SCHEME = "http";
     public static final String BASE_URL = "api.musixmatch.com/ws";
