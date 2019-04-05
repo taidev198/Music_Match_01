@@ -139,9 +139,7 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
     @Override
     public void onMediaStateChange(boolean isPlaying) {
-        if (isPlaying) {
-            mButtonPlay.setSelected(true);
-        } else mButtonPlay.setSelected(false);
+            mButtonPlay.setSelected(isPlaying);
     }
 
     @Override
@@ -177,7 +175,9 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
             case R.id.button_play:
                 if (mMediaListener.isPlaying()) {
                     mMediaListener.pause();
-                } else mMediaListener.start();
+                } else {
+                    mMediaListener.start();
+                }
                 break;
             case R.id.button_next:
                 mMediaListener.next();

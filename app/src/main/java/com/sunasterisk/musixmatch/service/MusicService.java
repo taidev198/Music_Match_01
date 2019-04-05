@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
 
 import com.sunasterisk.musixmatch.data.model.Track;
 
@@ -18,8 +17,6 @@ import java.util.Random;
 
 public class MusicService extends Service
         implements MediaListener, MediaPlayer.OnCompletionListener {
-    private static final int NEXT = 1;
-    private static final int PREVIOUS = -1;
     private static final String EXTRA_TRACK = "EXTRA_TRACK";
     private static final String EXTRA_TRACK_POSITION = "EXTRA_TRACK_POSITION";
     private OnMediaPlayerChangeListener mOnMediaPlayerChangeListener;
@@ -154,20 +151,20 @@ public class MusicService extends Service
     @Override
     public void previous() {
         destroyMusic();
-        changePosition(PREVIOUS);
+        decreasePosition();
         play(getCurrentUri());
     }
 
     @Override
     public void next() {
         destroyMusic();
-        changePosition(NEXT);
+        increasePosition();
         play(getCurrentUri());
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        onLoopModeChanged();
+        onMediaPlayerComplete();
     }
 
     public MediaListener getMediaListener() {
@@ -189,11 +186,11 @@ public class MusicService extends Service
     /**
      * <p> This method will check loop mode when current track has finished </p>
      */
-    private void onLoopModeChanged() {
+    private void onMediaPlayerComplete() {
         switch (mStateLoop) {
             case LoopMode.LOOP_OFF:
                 if (mPosition < mTracks.size() - 1) {
-                    mPosition++;
+                    increasePosition();
                     play(getCurrentUri());
                 } else {
                     mPosition = 0;
@@ -207,34 +204,34 @@ public class MusicService extends Service
                 play(getCurrentUri());
                 break;
             case LoopMode.LOOP_ALL:
-                if (mPosition == mTracks.size() - 1) {
-                    mPosition = 0;
-                } else {
-                    mPosition++;
-                }
+                increasePosition();
                 play(getCurrentUri());
                 break;
             case LoopMode.SHUFFLE_ON:
-                if (mPosition < mTracks.size()) {
-                    mPosition = mRandom.nextInt(mTracks.size() + 1);
-                }
+                randomPosition();
                 play(getCurrentUri());
                 break;
         }
     }
 
-    @IntDef({PREVIOUS, NEXT})
-    @interface Action {
-    }
-
-    private void changePosition(@Action int actionValue) {
-        if (mStateLoop == LoopMode.SHUFFLE_ON) {
-            mPosition = mRandom.nextInt(mTracks.size() + 1);
-        } else if (mPosition == mTracks.size() - 1) {
+    private void increasePosition() {
+        if (mPosition == mTracks.size() - 1) {
             mPosition = 0;
         } else {
-            mPosition += actionValue;
+            mPosition += 1;
         }
+    }
+
+    private void decreasePosition() {
+        if (mPosition == 0) {
+            mPosition = mTracks.size() - 1;
+        } else {
+            mPosition -= 1;
+        }
+    }
+
+    private void randomPosition() {
+        mPosition = mRandom.nextInt(mTracks.size() + 1);
     }
 
     public class MusicBinder extends Binder {
