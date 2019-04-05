@@ -1,74 +1,64 @@
 package com.sunasterisk.musixmatch.ui.playing.tracks;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
+import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
+import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
+import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
-import java.util.List;
+public class TracksAdapter extends BaseAdapter<Track, OnRecyclerItemClickListener<Track>, TracksAdapter.TrackViewHolder> {
 
-public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder> {
-    private List<Track> mTracks;
-    private OnItemClickListener mCallback;
-
-    public TracksAdapter(List<Track> tracks, OnItemClickListener callback) {
-        mTracks = tracks;
-        mCallback = callback;
+    public TracksAdapter(Context context) {
+        super(context);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TrackViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_track, viewGroup, false);
-        return new ViewHolder(itemView, mCallback);
+        return new TrackViewHolder(mContext, itemView, mCallback);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.bindData(mTracks.get(i));
+    public void onBindViewHolder(@NonNull TrackViewHolder trackViewHolder, int i) {
+        trackViewHolder.bindData(mItems.get(i));
     }
 
-    @Override
-    public int getItemCount() {
-        return mTracks == null ? 0 : mTracks.size();
-    }
+    public static class TrackViewHolder extends BaseTrackViewHolder<Track, OnRecyclerItemClickListener<Track>> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTextTrackName;
-        private TextView mTextArtistName;
-        private Track mTrack;
-        private OnItemClickListener mCallback;
+        protected ImageView mOptionMore;
 
-        public ViewHolder(@NonNull View itemView, OnItemClickListener callback) {
-            super(itemView);
-            mCallback = callback;
-            mTextTrackName = itemView.findViewById(R.id.text_track_name);
-            mTextArtistName = itemView.findViewById(R.id.text_artist_name);
-            itemView.setOnClickListener(this);
+        public TrackViewHolder(Context context, View itemView, OnRecyclerItemClickListener<Track> mCallback) {
+            super(context, itemView, mCallback);
+            mOptionMore = itemView.findViewById(R.id.button_more);
         }
 
-        void bindData(Track track) {
+        @Override
+        public void bindData(Track track) {
             if (track != null) {
-                mTrack = track;
-                mTextTrackName.setText(track.getTrackName());
-                mTextArtistName.setText(track.getArtistName());
+                mItem = track;
+                mTextTitle.setText(track.getTrackName());
+                mTextSubTitle.setText(track.getArtistName());
             }
+        }
+
+        @Override
+        public void showOptionMenu() {
         }
 
         @Override
         public void onClick(View v) {
             if (mCallback != null) {
-                mCallback.onTrackClick(mTrack);
+                mCallback.onItemClicked(mItem);
             }
         }
     }
 
-    public interface OnItemClickListener {
-        void onTrackClick(Track track);
-    }
 }
