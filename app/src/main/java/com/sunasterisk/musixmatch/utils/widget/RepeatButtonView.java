@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import com.sunasterisk.musixmatch.R;
 
 public class RepeatButtonView extends AppCompatImageView {
-    private static final int STATE_MAX = 4;
     public static final int STATE_REPEAT_OFF = 0;
     public static final int STATE_REPEAT_ONE = 1;
     public static final int STATE_REPEAT_ALL = 2;
@@ -55,7 +54,6 @@ public class RepeatButtonView extends AppCompatImageView {
     @Override
     public boolean performClick() {
         super.performClick();
-        setNextState();
         drawBackground();
         return true;
     }
@@ -67,13 +65,6 @@ public class RepeatButtonView extends AppCompatImageView {
     public void setButtonState(@ButtonState int buttonState) {
         mButtonState = buttonState;
         drawBackground();
-    }
-
-    private void setNextState() {
-        mButtonState++;
-        if (mButtonState == STATE_MAX) {
-            mButtonState = 0;
-        }
     }
 
     private void drawBackground() {

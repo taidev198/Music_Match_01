@@ -9,25 +9,24 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
-import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
-import com.sunasterisk.musixmatch.ui.base.BaseRecyclerListener;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
 import java.util.List;
 
 public class TracksFragment extends BaseFragment implements TracksContract.View,
-                        OnRecyclerItemClickListener<Track> {
+        OnRecyclerItemClickListener<Track> {
     protected RecyclerView mRecyclerView;
     protected TracksContract.Presenter mPresenter;
     protected TracksAdapter mAdapter;
-    protected OnTrackClickListener mCallback;
+    protected OnGetTracksListener mCallback;
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (OnTrackClickListener) context;
+            mCallback = (OnGetTracksListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnTrackClickListener");
@@ -58,17 +57,12 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
         mAdapter.setCallBack(this);
         mAdapter.setItems(tracks);
         mRecyclerView.setAdapter(mAdapter);
+        mCallback.onGetTracksSuccess(tracks);
     }
 
     @Override
     public void showError(Exception e) {
         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCallback = null;
     }
 
     @Override
@@ -81,7 +75,9 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     }
 
-    public interface OnTrackClickListener {
+    public interface OnGetTracksListener {
         void onPlayed(Track track);
+
+        void onGetTracksSuccess(List<Track> tracks);
     }
 }
