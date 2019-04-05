@@ -16,7 +16,7 @@ public class AlbumsTabPresenter implements AlbumsContract.Presenter {
     private AlbumRepository mRepository;
     private AlbumsContract.View mView;
 
-    public AlbumsTabPresenter(AlbumRepository repository, AlbumsContract.View view){
+    public AlbumsTabPresenter(AlbumRepository repository, AlbumsContract.View view) {
         mRepository = repository;
         mView = view;
     }

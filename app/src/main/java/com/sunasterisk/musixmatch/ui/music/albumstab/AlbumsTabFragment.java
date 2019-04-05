@@ -17,13 +17,13 @@ import java.util.List;
  * Created by superme198 on 05,April,2019
  * in Music_Match__1.
  */
-    public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.View,
+public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.View,
         OnRecyclerItemClickListener<Album> {
 
-    public static final int NUMBER_COLUMNS = 2;
     protected AlbumsTabAdapter mAdapter;
     protected RecyclerView mRecyclerView;
     protected AlbumsTabPresenter mPresenter;
+    private static final int NUMBER_COLUMNS = 2;
 
     @Override
     protected int getLayoutResource() {

@@ -30,7 +30,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
     @NonNull
     @Override
     public AlbumsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.album_item, viewGroup, false);
+        View itemView = inflate(R.layout.album_item, viewGroup, false);
         return new AlbumsViewHolder(mContext, itemView, mCallback);
     }
 
@@ -42,7 +42,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
         protected CardView mAlbumArt;
 
         public AlbumsViewHolder(Context context,
-        @NonNull View itemView, OnRecyclerItemClickListener<Album> callback) {
+                                @NonNull View itemView, OnRecyclerItemClickListener<Album> callback) {
             super(context, itemView, callback);
             mAlbumArt = itemView.findViewById(R.id.cardview_album_art);
             mOptionMore = itemView.findViewById(R.id.button_more_album);
@@ -53,15 +53,16 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.button_more_album: showOptionMenu(); break;
-                default:
+            switch (v.getId()) {
+                case R.id.button_more_album:
+                    showOptionMenu();
+                    break;
             }
         }
 
         @Override
         public void bindData(Album album) {
-            if (album !=null){
+            if (album != null) {
                 mItem = album;
                 mTextTitle.setText(mItem.getAlbumName());
                 mTextSubTitle.setText(mItem.getArtistName());
@@ -82,7 +83,8 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
                         return true;
                     case R.id.edit_info:
                         return true;
-                    default:return false;
+                    default:
+                        return false;
                 }
             });
             popup.show();
