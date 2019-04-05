@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch.ui.playing.albums.albumstab;
+package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

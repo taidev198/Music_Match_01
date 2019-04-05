@@ -1,10 +1,9 @@
-package com.sunasterisk.musixmatch.ui.playing.albums.albumstab;
+package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 
 import com.sunasterisk.musixmatch.data.model.Album;
 import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.Callback;
-import com.sunasterisk.musixmatch.ui.playing.albums.AlbumsContract;
 
 import java.util.List;
 

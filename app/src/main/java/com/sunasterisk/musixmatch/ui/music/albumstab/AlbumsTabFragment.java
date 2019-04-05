@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch.ui.playing.albums.albumstab;
+package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.local.AlbumLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
-import com.sunasterisk.musixmatch.ui.playing.albums.AlbumsContract;
 
 import java.util.List;
 

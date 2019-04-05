@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch.ui.playing.albums;
+package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 import com.sunasterisk.musixmatch.data.model.Album;
 
