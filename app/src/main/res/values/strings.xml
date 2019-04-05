@@ -17,4 +17,5 @@
     <string name="text_add_to_playlist">Add to playlist</string>
     <string name="text_add_to_queue">Add to queue</string>
     <string name="text_play">Play</string>
+    <string name="text_edit_album_info">Edit album info</string>
 </resources>
