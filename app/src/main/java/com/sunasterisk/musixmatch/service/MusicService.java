@@ -1,15 +1,26 @@
 package com.sunasterisk.musixmatch.service;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcelable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
+import android.widget.RemoteViews;
 
+import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
+import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +30,10 @@ public class MusicService extends Service
         implements MediaListener, MediaPlayer.OnCompletionListener {
     private static final String EXTRA_TRACK = "EXTRA_TRACK";
     private static final String EXTRA_TRACK_POSITION = "EXTRA_TRACK_POSITION";
+    private static final String CHANNEL_ID = "CHANNEL_ID";
+    private static final String CHANNEL_NAME = "CHANNEL_NAME";
+    private static final int PENDING_REQUEST_CODE = 0;
+    private static final int NOTIFICATION_ID = 123;
     private OnMediaPlayerChangeListener mOnMediaPlayerChangeListener;
     private List<Track> mTracks;
     private MediaPlayer mMediaPlayer;
@@ -26,6 +41,31 @@ public class MusicService extends Service
     private int mPosition;
     private int mStateLoop;
     private Context mContext;
+
+    private enum ACTIONS {
+        ACTION_PLAY,
+        ACTION_NEXT,
+        ACTION_CLOSE
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equalsIgnoreCase(ACTIONS.ACTION_NEXT.name())) {
+                next();
+            } else if (action.equalsIgnoreCase(ACTIONS.ACTION_PLAY.name())) {
+                if (isPlaying()) {
+                    pause();
+                } else {
+                    start();
+                }
+            } else {
+                pause();
+                stopForeground(true);
+            }
+        }
+    };
 
     public static Intent getIntentService(
             Context context, List<Track> tracks, int position) {
@@ -46,6 +86,7 @@ public class MusicService extends Service
         super.onCreate();
         mContext = getApplicationContext();
         mRandom = new Random();
+        addIntentAction();
     }
 
     @Override
@@ -57,6 +98,7 @@ public class MusicService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPosition = intent.getIntExtra(EXTRA_TRACK_POSITION, 0);
         mTracks = intent.getParcelableArrayListExtra(EXTRA_TRACK);
+        pushNotification();
         return START_NOT_STICKY;
     }
 
@@ -80,6 +122,7 @@ public class MusicService extends Service
         if (mMediaPlayer != null && isPlaying()) {
             mOnMediaPlayerChangeListener.onMediaStateChange(false);
             mMediaPlayer.pause();
+            pushNotification();
         }
     }
 
@@ -134,6 +177,7 @@ public class MusicService extends Service
         if (mMediaPlayer != null) {
             mOnMediaPlayerChangeListener.onMediaStateChange(true);
             mMediaPlayer.start();
+            pushNotification();
         }
     }
 
@@ -181,6 +225,12 @@ public class MusicService extends Service
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
     }
 
     /**
@@ -232,6 +282,59 @@ public class MusicService extends Service
 
     private void randomPosition() {
         mPosition = mRandom.nextInt(mTracks.size() + 1);
+    }
+
+    private PendingIntent getPendingAction(ACTIONS actions) {
+        Intent intent = new Intent(actions.name());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this, PENDING_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+    }
+
+    private PendingIntent getPendingActivity() {
+        Intent resultIntent = new Intent(this, PlayingActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent pendingIntent =
+                stackBuilder.getPendingIntent(PENDING_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+    }
+
+    private void addIntentAction() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTIONS.ACTION_NEXT.name());
+        filter.addAction(ACTIONS.ACTION_PLAY.name());
+        filter.addAction(ACTIONS.ACTION_CLOSE.name());
+        registerReceiver(mReceiver, filter);
+    }
+
+    private void pushNotification() {
+        RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification);
+        views.setTextViewText(R.id.text_track_name, getCurrentTrack().getTrackName());
+        views.setTextViewText(R.id.text_artist_name, getCurrentTrack().getArtistName());
+        views.setOnClickPendingIntent(R.id.button_play, getPendingAction(ACTIONS.ACTION_PLAY));
+        views.setOnClickPendingIntent(R.id.button_next, getPendingAction(ACTIONS.ACTION_NEXT));
+        views.setOnClickPendingIntent(R.id.button_close, getPendingAction(ACTIONS.ACTION_CLOSE));
+        if (isPlaying()) {
+            views.setImageViewResource(R.id.button_play, R.drawable.ic_pause_no);
+        } else {
+            views.setImageViewResource(R.id.button_play, R.drawable.ic_play_no);
+        }
+        NotificationManager manager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setContentIntent(getPendingActivity());
+        builder.setSmallIcon(R.drawable.ic_logo_no);
+        builder.setCustomContentView(views);
+        startForeground(NOTIFICATION_ID, builder.build());
     }
 
     public class MusicBinder extends Binder {
