@@ -1,6 +1,9 @@
 package com.sunasterisk.musixmatch.data.model;
 
-public class Artist {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Artist implements Parcelable {
     private int mArtistId;
     private String mArtistName;
     private int mNumberOfAlbums;
@@ -12,6 +15,25 @@ public class Artist {
         mNumberOfAlbums = builder.mNumberOfAlbums;
         mNumberOfTracks = builder.mNumberOfTracks;
     }
+
+    protected Artist(Parcel in) {
+        mArtistId = in.readInt();
+        mArtistName = in.readString();
+        mNumberOfAlbums = in.readInt();
+        mNumberOfTracks = in.readInt();
+    }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel in) {
+            return new Artist(in);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 
     public int getArtistId() {
         return mArtistId;
@@ -27,6 +49,19 @@ public class Artist {
 
     public int getNumberOfTracks() {
         return mNumberOfTracks;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(mArtistId);
+        parcel.writeString(mArtistName);
+        parcel.writeInt(mNumberOfTracks);
+        parcel.writeInt(mNumberOfAlbums);
     }
 
     public static class Builder {

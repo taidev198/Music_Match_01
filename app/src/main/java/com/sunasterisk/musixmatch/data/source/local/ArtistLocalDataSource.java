@@ -19,6 +19,15 @@ public class ArtistLocalDataSource implements ArtistDataSource.Local {
         mContext = context;
     }
 
+    private static ArtistLocalDataSource sInstance;
+
+    public static ArtistLocalDataSource getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new ArtistLocalDataSource(context);
+        }
+        return sInstance;
+    }
+
     @Override
     public void getArtists(Callback<List<Artist>> callback) {
         List<Artist> artists = new ArrayList<>();
