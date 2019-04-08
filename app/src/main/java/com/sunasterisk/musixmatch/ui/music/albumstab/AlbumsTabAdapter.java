@@ -2,6 +2,7 @@ package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -16,6 +17,8 @@ import com.sunasterisk.musixmatch.data.model.Album;
 import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
+import com.sunasterisk.musixmatch.ui.music.albumstab.albumdetails.AlbumDetailsFragment;
+import com.sunasterisk.musixmatch.utils.Constants;
 
 /**
  * Created by superme198 on 05,April,2019
@@ -48,6 +51,9 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
             mOptionMore = itemView.findViewById(R.id.button_more_album);
             mTextTitle = itemView.findViewById(R.id.text_title_album);
             mTextSubTitle = itemView.findViewById(R.id.text_subtitle_album);
+            mAlbumArt.setOnClickListener(this);
+            mTextTitle.setOnClickListener(this);
+            mTextSubTitle.setOnClickListener(this);
             mOptionMore.setOnClickListener(this);
         }
 
@@ -56,6 +62,16 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
             switch (v.getId()) {
                 case R.id.button_more_album:
                     showOptionMenu();
+                    break;
+                case R.id.cardview_album_art:
+                case R.id.text_title_album:
+                case R.id.text_subtitle_album:
+                    AlbumDetailsFragment albumDetailsFragment = new AlbumDetailsFragment();
+                    Bundle args = new Bundle();
+                    args.putParcelable(Constants.ARGUMENT_ALBUM_ITEM, mItem);
+                    albumDetailsFragment.setArguments(args);
+                    break;
+                default:
                     break;
             }
         }

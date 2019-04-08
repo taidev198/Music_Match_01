@@ -18,4 +18,5 @@
     <string name="text_add_to_queue">Add to queue</string>
     <string name="text_play">Play</string>
     <string name="text_edit_album_info">Edit album info</string>
+    <string name="shuffle_play">Shuffle Play</string>
 </resources>

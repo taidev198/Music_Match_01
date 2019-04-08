@@ -17,6 +17,7 @@ public final class Constants {
     public static final String QUERY_TRACK = "q_track";
     public static final String TRACK_ID = "track_id";
     public static final String ALBUM_ID = "album_id";
+    public static final String ARGUMENT_ALBUM_ITEM = "ARGUMENT_ALBUM_ITEM";
     public static final String PAGE_SIZE = "page_size";
     public static final int READ_TIMEOUT = 5000;
     public static final int CONNECTION_TIMEOUT = 5000;
