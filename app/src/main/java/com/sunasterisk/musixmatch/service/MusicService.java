@@ -42,19 +42,13 @@ public class MusicService extends Service
     private int mStateLoop;
     private Context mContext;
 
-    private enum ACTIONS {
-        ACTION_PLAY,
-        ACTION_NEXT,
-        ACTION_CLOSE
-    }
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equalsIgnoreCase(ACTIONS.ACTION_NEXT.name())) {
+            if (action.equalsIgnoreCase(Action.NEXT)) {
                 next();
-            } else if (action.equalsIgnoreCase(ACTIONS.ACTION_PLAY.name())) {
+            } else if (action.equalsIgnoreCase(Action.TOGGLE_STATE)) {
                 if (isPlaying()) {
                     pause();
                 } else {
@@ -284,8 +278,8 @@ public class MusicService extends Service
         mPosition = mRandom.nextInt(mTracks.size() + 1);
     }
 
-    private PendingIntent getPendingAction(ACTIONS actions) {
-        Intent intent = new Intent(actions.name());
+    private PendingIntent getPendingAction(@Action String action) {
+        Intent intent = new Intent(action);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this, PENDING_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
@@ -302,9 +296,9 @@ public class MusicService extends Service
 
     private void addIntentAction() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTIONS.ACTION_NEXT.name());
-        filter.addAction(ACTIONS.ACTION_PLAY.name());
-        filter.addAction(ACTIONS.ACTION_CLOSE.name());
+        filter.addAction(Action.TOGGLE_STATE);
+        filter.addAction(Action.NEXT);
+        filter.addAction(Action.CLOSE);
         registerReceiver(mReceiver, filter);
     }
 
@@ -312,9 +306,9 @@ public class MusicService extends Service
         RemoteViews views = new RemoteViews(getPackageName(), R.layout.notification);
         views.setTextViewText(R.id.text_track_name, getCurrentTrack().getTrackName());
         views.setTextViewText(R.id.text_artist_name, getCurrentTrack().getArtistName());
-        views.setOnClickPendingIntent(R.id.button_play, getPendingAction(ACTIONS.ACTION_PLAY));
-        views.setOnClickPendingIntent(R.id.button_next, getPendingAction(ACTIONS.ACTION_NEXT));
-        views.setOnClickPendingIntent(R.id.button_close, getPendingAction(ACTIONS.ACTION_CLOSE));
+        views.setOnClickPendingIntent(R.id.button_play, getPendingAction(Action.TOGGLE_STATE));
+        views.setOnClickPendingIntent(R.id.button_next, getPendingAction(Action.NEXT));
+        views.setOnClickPendingIntent(R.id.button_close, getPendingAction(Action.CLOSE));
         if (isPlaying()) {
             views.setImageViewResource(R.id.button_play, R.drawable.ic_pause_no);
         } else {
