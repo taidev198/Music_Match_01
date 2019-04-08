@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch.ui.playing.tracks.trackstab;
+package com.sunasterisk.musixmatch.ui.music.trackstab;
 
 import android.view.View;
 

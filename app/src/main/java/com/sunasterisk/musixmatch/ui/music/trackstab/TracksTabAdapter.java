@@ -1,4 +1,4 @@
-package com.sunasterisk.musixmatch.ui.playing.tracks.trackstab;
+package com.sunasterisk.musixmatch.ui.music.trackstab;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunasterisk.musixmatch.R;
-import com.sunasterisk.musixmatch.application.MusixMatchApplication;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
-import com.sunasterisk.musixmatch.ui.base.BaseViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
 

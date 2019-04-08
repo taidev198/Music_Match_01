@@ -12,9 +12,10 @@
     <string name="text_results_search">RESULTS</string>
     <string name="text_menu_show_lyrics">Show lyrics</string>
     <string name="text_menu_go_album">Go to album</string>
-    <string name="text_delete">Detele</string>
+    <string name="text_delete">Delete</string>
     <string name="text_edit_song_info">Edit song Info</string>
     <string name="text_add_to_playlist">Add to playlist</string>
     <string name="text_add_to_queue">Add to queue</string>
     <string name="text_play">Play</string>
+    <string name="text_edit_album_info">Edit album info</string>
 </resources>
