@@ -12,7 +12,8 @@ import com.sunasterisk.musixmatch.ui.main.home.HomeFragment;
 import com.sunasterisk.musixmatch.ui.music.FragmentMusic;
 import com.sunasterisk.musixmatch.ui.search.SearchActivity;
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView mBottomNavigationView;
 
     @Override
@@ -35,10 +36,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_home:
-                addFragment(HomeFragment.newInstance());
+                replaceFragment(HomeFragment.newInstance());
                 break;
             case R.id.action_music:
-                addFragment(FragmentMusic.newInstance());
+                replaceFragment(FragmentMusic.newInstance());
                 break;
             case R.id.action_search:
                 jumpToSearchScreen();
@@ -47,17 +48,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return true;
     }
 
-    private void addFragment(Fragment fragment) {
-        Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.frame_main);
-        if (oldFragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .remove(oldFragment)
-                    .commit();
-        }
+    private void replaceFragment(@NonNull Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frame_main, fragment)
+                .replace(R.id.frame_main, fragment)
                 .commit();
     }
 
