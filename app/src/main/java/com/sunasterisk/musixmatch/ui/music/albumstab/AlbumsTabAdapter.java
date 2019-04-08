@@ -37,6 +37,14 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
         return new AlbumsViewHolder(mContext, itemView, mCallback);
     }
 
+    public static AlbumDetailsFragment getAlbumDetailsFragment(Album album) {
+        AlbumDetailsFragment fragment = new AlbumDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARGUMENT_ALBUM_ITEM, album);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static class AlbumsViewHolder extends BaseTrackViewHolder<Album, OnRecyclerItemClickListener<Album>> {
 
         protected ImageView mOptionMore;
@@ -66,10 +74,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
                 case R.id.cardview_album_art:
                 case R.id.text_title_album:
                 case R.id.text_subtitle_album:
-                    AlbumDetailsFragment albumDetailsFragment = new AlbumDetailsFragment();
-                    Bundle args = new Bundle();
-                    args.putParcelable(ARGUMENT_ALBUM_ITEM, mItem);
-                    albumDetailsFragment.setArguments(args);
+                    getAlbumDetailsFragment(mItem);
                     break;
                 default:
                     break;

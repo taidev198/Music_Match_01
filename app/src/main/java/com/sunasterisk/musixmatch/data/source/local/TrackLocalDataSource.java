@@ -92,11 +92,13 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
             @Override
             protected List<Track> doInBackground(Void... voids) {
                 List<Track> tracks = new ArrayList<>();
-                ContentResolver resolver = mContext.getContentResolver();
-                Cursor cursor = resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        null, null, null, null);
-                cursor.moveToFirst();
                 MediaStore.Audio.Media audioMedia = new MediaStore.Audio.Media();
+                String selection = audioMedia.ALBUM_ID + " = ?";
+                ContentResolver resolver = mContext.getContentResolver();
+                String[] selectionArgs = new String[]{Integer.toString(id)};
+                Cursor cursor = resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        null, selection, selectionArgs, null);
+                cursor.moveToFirst();
                 int indexTrackId = cursor.getColumnIndex(audioMedia._ID);
                 int indexTrackName = cursor.getColumnIndex(audioMedia.TITLE);
                 int indexAlbumId = cursor.getColumnIndex(audioMedia.ALBUM_ID);
@@ -108,9 +110,6 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
                 int indexSize = cursor.getColumnIndex(audioMedia.SIZE);
                 while (cursor.isAfterLast() == false) {
                     int albumId = cursor.getInt(indexAlbumId);
-                    if (albumId != id) {
-                        continue;
-                    }
                     int trackId = cursor.getInt(indexTrackId);
                     String trackName = cursor.getString(indexTrackName);
                     int artistId = cursor.getInt(indexArtistId);

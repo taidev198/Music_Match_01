@@ -27,7 +27,7 @@ import java.util.List;
 public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsContract.View,
         OnRecyclerItemClickListener<Track>, View.OnClickListener {
 
-    private Album mAlbum = new Album(new Album.Builder());
+    private Album mAlbum = new Album(new Album.Builder().setAlbumId(2));
     private TracksTabAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private AlbumDetailsPresenter mPresenter;
