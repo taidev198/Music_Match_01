@@ -7,6 +7,7 @@ import java.util.List;
 public interface TrackDataSource {
     interface Local {
         void getTracks(Callback<List<Track>> callback);
+        void getTracks(Callback<List<Track>> callback, int id);
     }
 
     interface RemoteDataSource {

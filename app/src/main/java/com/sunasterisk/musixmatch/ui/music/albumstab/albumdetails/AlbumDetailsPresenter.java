@@ -25,29 +25,18 @@ public class AlbumDetailsPresenter implements AlbumDetailsContract.Presenter {
     }
 
     @Override
-    public void getTracksFollowAlbumID(List<Track> trackList, int id) {
-        List<Track> tracks = new ArrayList<>();
-        for (Track track :
-                trackList) {
-            if (track.getAlbumId() == id)
-                tracks.add(track);
-        }
-        mView.showTracksFromAlbum(tracks);
-    }
-
-    @Override
     public void getLocalTracks() {
         mRepository.getTracks(new Callback<List<Track>>() {
             @Override
             public void getDataSuccess(List<Track> data) {
-                getTracksFollowAlbumID(data, mAlbum.getAlbumId());
+                mView.showTracksFromAlbum(data);
             }
 
             @Override
             public void getDataFailure(Exception e) {
                 mView.showError(e);
             }
-        });
+        }, mAlbum.getAlbumId());
     }
 
 }

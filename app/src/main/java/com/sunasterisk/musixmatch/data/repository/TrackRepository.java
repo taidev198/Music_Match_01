@@ -40,6 +40,11 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     }
 
     @Override
+    public void getTracks(Callback<List<Track>> callback, int id) {
+        mLocal.getTracks(callback, id);
+    }
+
+    @Override
     public void getTracksByAlbum(int albumID, int limit, TrackDataSource.LoadTrackCallback callback) {
         mRemote.getTracksByAlbum(albumID, limit, callback);
     }

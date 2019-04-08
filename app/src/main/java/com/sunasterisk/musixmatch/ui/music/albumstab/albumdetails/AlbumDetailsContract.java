@@ -18,8 +18,6 @@ public interface AlbumDetailsContract extends AlbumsContract {
     }
 
     interface Presenter {
-        void getTracksFollowAlbumID(List<Track> trackList, int id);
-
         void getLocalTracks();
     }
 }

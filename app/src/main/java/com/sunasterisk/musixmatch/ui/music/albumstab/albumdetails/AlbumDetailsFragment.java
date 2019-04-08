@@ -15,11 +15,10 @@ import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
+import com.sunasterisk.musixmatch.ui.music.albumstab.AlbumsTabAdapter;
 import com.sunasterisk.musixmatch.ui.music.trackstab.TracksTabAdapter;
 
 import java.util.List;
-
-import static com.sunasterisk.musixmatch.utils.Constants.ARGUMENT_ALBUM_ITEM;
 
 /**
  * Created by superme198 on 05,April,2019
@@ -62,12 +61,12 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     @Override
     protected void initData() {
-        mAlbum = getArguments().getParcelable(ARGUMENT_ALBUM_ITEM);
+        mAlbum = getArguments().getParcelable(AlbumsTabAdapter.ARGUMENT_ALBUM_ITEM);
         TrackRepository repository = TrackRepository.getInstance(
                 TrackLocalDataSource.getInstance(getContext()));
         mPresenter = new AlbumDetailsPresenter(repository, this, mAlbum);
         mPresenter.getLocalTracks();
-        setAlbumInfo();
+        setAlbumInfo(mAlbum);
     }
 
     @Override
@@ -106,11 +105,11 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
         }
     }
 
-    private void setAlbumInfo() {
-        mAlbumName.setText(mAlbum.getAlbumName());
-        mCurrentSongName.setText(mAlbum.getNumberOfSongs());
-        mNumsSong.setText(mAlbum.getNumberOfSongs());
-        mAlbumArt.setForeground(Drawable.createFromPath(mAlbum.getAlbumArt()));
+    private void setAlbumInfo(Album album) {
+        mAlbumName.setText(album.getAlbumName());
+        mCurrentSongName.setText(album.getNumberOfSongs());
+        mNumsSong.setText(album.getNumberOfSongs());
+        mAlbumArt.setForeground(Drawable.createFromPath(album.getAlbumArt()));
     }
 
     private void showOptionMenu(View anchor) {

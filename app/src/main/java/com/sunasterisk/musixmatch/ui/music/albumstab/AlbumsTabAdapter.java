@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,13 +17,14 @@ import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.music.albumstab.albumdetails.AlbumDetailsFragment;
-import com.sunasterisk.musixmatch.utils.Constants;
 
 /**
  * Created by superme198 on 05,April,2019
  * in Music_Match__1.
  */
 public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickListener<Album>, AlbumsTabAdapter.AlbumsViewHolder> {
+
+    public static final String ARGUMENT_ALBUM_ITEM = "ARGUMENT_ALBUM_ITEM";
 
     public AlbumsTabAdapter(Context context) {
         super(context);
@@ -68,7 +68,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
                 case R.id.text_subtitle_album:
                     AlbumDetailsFragment albumDetailsFragment = new AlbumDetailsFragment();
                     Bundle args = new Bundle();
-                    args.putParcelable(Constants.ARGUMENT_ALBUM_ITEM, mItem);
+                    args.putParcelable(ARGUMENT_ALBUM_ITEM, mItem);
                     albumDetailsFragment.setArguments(args);
                     break;
                 default:
