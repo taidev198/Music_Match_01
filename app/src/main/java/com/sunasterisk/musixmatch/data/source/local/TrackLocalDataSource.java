@@ -33,11 +33,10 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
         AsyncTask<Void, Void, List<Track>> asyncTask = new AsyncTask<Void, Void, List<Track>>() {
             @Override
             protected List<Track> doInBackground(Void... voids) {
-                MediaStore.Audio.Media audioMedia = new MediaStore.Audio.Media();
                 ContentResolver resolver = mContext.getContentResolver();
                 Cursor cursor = resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         null, null, null, null);
-                return getData(cursor, audioMedia);
+                return getData(cursor);
             }
 
             @Override
@@ -52,17 +51,16 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
     }
 
     @Override
-    public void getTracks(Callback<List<Track>> callback, int id) {
+    public void getTracks(int id, Callback<List<Track>> callback) {
         AsyncTask<Void, Void, List<Track>> asyncTask = new AsyncTask<Void, Void, List<Track>>() {
             @Override
             protected List<Track> doInBackground(Void... voids) {
-                MediaStore.Audio.Media audioMedia = new MediaStore.Audio.Media();
-                String selection = audioMedia.ALBUM_ID + " = ?";
+                String selection = MediaStore.Audio.Media.ALBUM_ID + " = ?";
                 ContentResolver resolver = mContext.getContentResolver();
                 String[] selectionArgs = new String[]{Integer.toString(id)};
                 Cursor cursor = resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         null, selection, selectionArgs, null);
-                return getData(cursor, audioMedia);
+                return getData(cursor);
             }
 
             @Override
@@ -76,17 +74,17 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
         asyncTask.execute();
     }
 
-    public List<Track> getData(Cursor cursor, MediaStore.Audio.Media audioMedia) {
+    public List<Track> getData(Cursor cursor) {
         List<Track> tracks = new ArrayList<>();
-        int indexTrackId = cursor.getColumnIndex(audioMedia._ID);
-        int indexTrackName = cursor.getColumnIndex(audioMedia.TITLE);
-        int indexAlbumId = cursor.getColumnIndex(audioMedia.ALBUM_ID);
-        int indexAlbumName = cursor.getColumnIndex(audioMedia.ALBUM);
-        int indexArtistId = cursor.getColumnIndex(audioMedia.ARTIST_ID);
-        int indexArtistName = cursor.getColumnIndex(audioMedia.ARTIST);
-        int indexData = cursor.getColumnIndex(audioMedia.DATA);
-        int indexDuration = cursor.getColumnIndex(audioMedia.DURATION);
-        int indexSize = cursor.getColumnIndex(audioMedia.SIZE);
+        int indexTrackId = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
+        int indexTrackName = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+        int indexAlbumId = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
+        int indexAlbumName = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+        int indexArtistId = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST_ID);
+        int indexArtistName = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+        int indexData = cursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+        int indexDuration = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+        int indexSize = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false) {
             int albumId = cursor.getInt(indexAlbumId);

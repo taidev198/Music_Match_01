@@ -30,7 +30,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     private Album mAlbum = new Album(new Album.Builder());
     private TracksTabAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private AlbumDetailsPresenter mPresenter;
+    private AlbumDetailsContract.Presenter mPresenter;
     private CardView mAlbumArt;
     private ImageView mBackButton;
     private ImageView mMoreOptionButton;

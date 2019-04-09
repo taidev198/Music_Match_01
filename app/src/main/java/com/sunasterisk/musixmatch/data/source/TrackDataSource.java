@@ -7,11 +7,13 @@ import java.util.List;
 public interface TrackDataSource {
     interface Local {
         void getTracks(Callback<List<Track>> callback);
-        void getTracks(Callback<List<Track>> callback, int id);
+
+        void getTracks(int id, Callback<List<Track>> callback);
     }
 
     interface RemoteDataSource {
         void getTracksByAlbum(int albumID, int limit, LoadTrackCallback callback);
+
         void searchTrack(String searchKey, int limit, LoadTrackCallback callback);
     }
 

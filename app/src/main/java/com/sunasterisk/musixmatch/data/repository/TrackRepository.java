@@ -6,7 +6,7 @@ import com.sunasterisk.musixmatch.data.source.TrackDataSource;
 
 import java.util.List;
 
-public class TrackRepository implements TrackDataSource.Local, TrackDataSource.RemoteDataSource{
+public class TrackRepository implements TrackDataSource.Local, TrackDataSource.RemoteDataSource {
     private static TrackRepository sInstance;
     private TrackDataSource.Local mLocal;
     private TrackDataSource.RemoteDataSource mRemote;
@@ -40,8 +40,8 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     }
 
     @Override
-    public void getTracks(Callback<List<Track>> callback, int id) {
-        mLocal.getTracks(callback, id);
+    public void getTracks(int id, Callback<List<Track>> callback) {
+        mLocal.getTracks(id, callback);
     }
 
     @Override

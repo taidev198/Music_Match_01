@@ -30,19 +30,19 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
         super(context);
     }
 
-    @NonNull
-    @Override
-    public AlbumsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = inflate(R.layout.album_item, viewGroup, false);
-        return new AlbumsViewHolder(mContext, itemView, mCallback);
-    }
-
     public static AlbumDetailsFragment getAlbumDetailsFragment(Album album) {
         AlbumDetailsFragment fragment = new AlbumDetailsFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARGUMENT_ALBUM_ITEM, album);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @NonNull
+    @Override
+    public AlbumsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemView = inflate(R.layout.album_item, viewGroup, false);
+        return new AlbumsViewHolder(mContext, itemView, mCallback);
     }
 
     public static class AlbumsViewHolder extends BaseTrackViewHolder<Album, OnRecyclerItemClickListener<Album>> {

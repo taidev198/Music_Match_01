@@ -26,7 +26,7 @@ public class AlbumDetailsPresenter implements AlbumDetailsContract.Presenter {
 
     @Override
     public void getLocalTracks() {
-        mRepository.getTracks(new Callback<List<Track>>() {
+        mRepository.getTracks(mAlbum.getAlbumId(), new Callback<List<Track>>() {
             @Override
             public void getDataSuccess(List<Track> data) {
                 mView.showTracksFromAlbum(data);
@@ -36,7 +36,7 @@ public class AlbumDetailsPresenter implements AlbumDetailsContract.Presenter {
             public void getDataFailure(Exception e) {
                 mView.showError(e);
             }
-        }, mAlbum.getAlbumId());
+        });
     }
 
 }
