@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sunasterisk.musixmatch.R;
-import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
+import com.sunasterisk.musixmatch.ui.main.MainActivity;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         //start to main
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(getApplicationContext(), PlayingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }, TIME_DELAY);
     }
