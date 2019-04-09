@@ -19,4 +19,7 @@
     <string name="text_play">Play</string>
     <string name="text_edit_album_info">Edit album info</string>
     <string name="shuffle_play">Shuffle Play</string>
+    <!--fragment_lyrics-->
+    <string name="text_tap_to_refresh">Tap to refresh</string>
+    <string name="text_check_internet">Please check your Internet connection and try again.</string>
 </resources>
