@@ -32,11 +32,7 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
 
     public static class ArtistTabViewHolder extends BaseTrackViewHolder<Artist, OnRecyclerItemClickListener<Artist>> {
 
-        private static final String TEXT_TRACKS = "Tracks";
-        private static final String TEXT_TRACK = "Track";
-        private static final String TEXT_ALBUMS = "Albums";
-        private static final String TEXT_ALBUM = "Albums";
-        private StringBuilder mSubTitle = new StringBuilder();
+        private String mSubTitle;
 
         public ArtistTabViewHolder(Context context, View itemView, OnRecyclerItemClickListener<Artist> mCallback) {
             super(context, itemView, mCallback);
@@ -50,23 +46,16 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
             if (artist != null) {
                 mItem = artist;
                 mTextTitle.setText(artist.getArtistName());
-                mSubTitle.append(artist.getNumberOfAlbums())
-                        .append(" ");
-                if (artist.getNumberOfAlbums() > 1) {
-                    mSubTitle.append(TEXT_ALBUMS);
-                } else {
-                    mSubTitle.append(TEXT_ALBUM);
-                }
-
-                mSubTitle.append(" ")
-                        .append(artist.getNumberOfTracks())
-                        .append(" ");
-                if (artist.getNumberOfTracks() > 1) {
-                    mSubTitle.append(TEXT_TRACKS);
-                } else {
-                    mSubTitle.append(TEXT_TRACK);
-                }
-                mTextSubTitle.setText(mSubTitle.toString());
+                mSubTitle = String.format("%d %s %d %s",
+                        artist.getNumberOfAlbums(),
+                        artist.getNumberOfAlbums() > 1 ?
+                                mContext.getResources().getString(R.string.text_albums) :
+                                mContext.getResources().getString(R.string.text_album),
+                        artist.getNumberOfTracks(),
+                        artist.getNumberOfTracks() > 1 ?
+                                mContext.getResources().getString(R.string.text_tracks) :
+                                mContext.getResources().getString(R.string.text_track));
+                mTextSubTitle.setText(mSubTitle);
             }
         }
 
@@ -95,13 +84,13 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
 
             switch (v.getId()) {
                 case R.id.item_track_card:
+                    if (mCallback != null) {
+                        mCallback.onItemClicked(mItem);
+                    }
                     break;
                 case R.id.button_more:
                     showOptionMenu();
                     break;
-            }
-            if (mCallback != null) {
-                mCallback.onItemClicked(mItem);
             }
         }
     }
