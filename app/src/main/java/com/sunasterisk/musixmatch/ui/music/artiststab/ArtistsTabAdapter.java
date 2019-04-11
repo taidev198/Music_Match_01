@@ -44,17 +44,23 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
         @Override
         public void bindData(Artist artist) {
             if (artist != null) {
+                StringBuilder formatString = new StringBuilder();
                 mItem = artist;
                 mTextTitle.setText(artist.getArtistName());
-                mSubTitle = String.format("%d %s %d %s",
-                        artist.getNumberOfAlbums(),
-                        artist.getNumberOfAlbums() > 1 ?
-                                mContext.getResources().getString(R.string.text_albums) :
-                                mContext.getResources().getString(R.string.text_album),
-                        artist.getNumberOfTracks(),
-                        artist.getNumberOfTracks() > 1 ?
-                                mContext.getResources().getString(R.string.text_tracks) :
-                                mContext.getResources().getString(R.string.text_track));
+
+                if (artist.getNumberOfAlbums() > 1) {
+                    formatString.append(mContext.getResources().getString(R.string.text_albums));
+                } else {
+                    formatString.append(mContext.getResources().getString(R.string.text_album));
+                }
+                if (artist.getNumberOfTracks() > 1) {
+                    formatString.append(mContext.getResources().getString(R.string.text_tracks));
+                } else {
+                    formatString.append(mContext.getResources().getString(R.string.text_track));
+                }
+
+                mSubTitle = String.format(formatString.toString(),
+                        artist.getNumberOfAlbums(), artist.getNumberOfTracks());
                 mTextSubTitle.setText(mSubTitle);
             }
         }
