@@ -30,7 +30,7 @@ public class MusicFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        mAdapter = new MusicAdapter(getFragmentManager());
+        mAdapter = new MusicAdapter(getContext(), getFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
