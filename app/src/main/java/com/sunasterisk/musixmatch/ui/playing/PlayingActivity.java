@@ -252,7 +252,6 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
             ((ThumbnailFragment) thumbnailFragment).getTrack(track);
             ((ThumbnailFragment) thumbnailFragment).setImageTrack(mAlbums);
         }
-
         Fragment lyricsFragment = getSupportFragmentManager()
                 .findFragmentByTag(Constants.FragmentTag.LYRICS);
         if (lyricsFragment != null && lyricsFragment instanceof LyricsFragment) {
