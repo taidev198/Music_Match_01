@@ -27,4 +27,10 @@
     <string name="text_track">%d Track</string>
     <string name="text_albums">%d Albums</string>
     <string name="text_album">%d Album</string>
+    <!--fragment_music-->
+    <string name="text_music_title">Music</string>
+    <string name="text_album_tab">ALBUM</string>
+    <string name="text_artist_tab">ARTIST</string>
+    <string name="text_track_tab">TRACK</string>
+    <string name="text_playlist_tab">PLAYLIST</string>
 </resources>

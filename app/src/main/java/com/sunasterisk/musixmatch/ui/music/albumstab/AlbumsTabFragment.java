@@ -25,6 +25,10 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     protected AlbumsTabPresenter mPresenter;
     private static final int NUMBER_COLUMNS = 2;
 
+    public static AlbumsTabFragment newInstance() {
+        return new AlbumsTabFragment();
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_albums_tab;
