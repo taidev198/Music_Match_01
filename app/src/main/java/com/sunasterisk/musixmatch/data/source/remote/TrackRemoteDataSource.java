@@ -4,6 +4,7 @@ package com.sunasterisk.musixmatch.data.source.remote;
 import android.net.Uri;
 
 import com.sunasterisk.musixmatch.BuildConfig;
+import com.sunasterisk.musixmatch.data.source.Callback;
 import com.sunasterisk.musixmatch.data.source.TrackDataSource;
 import com.sunasterisk.musixmatch.utils.Constants;
 import com.sunasterisk.musixmatch.utils.Methods;
@@ -36,6 +37,11 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
         getSongsBySearchKey(searchKey, limit, callBack);
     }
 
+    @Override
+    public void getLyrics(String trackName, String artistName, Callback<String> callback) {
+        getTrackLyrics(trackName, artistName, callback);
+    }
+
     private void getSongsBySearchKey(String searchKey, int limit, TrackDataSource.LoadTrackCallback callBack) {
         Uri.Builder urlBuilder = new Uri.Builder();
         urlBuilder.scheme(Constants.SCHEME)
@@ -57,5 +63,17 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
                 .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY)
                 .appendQueryParameter(Constants.ALBUM_ID, String.valueOf(albumID));
         new SearchRemoteTrackFromAPIAsyncTask("", callBack).execute(urlBuilder.build().toString());
+    }
+
+    private void getTrackLyrics(String trackName, String artistName, Callback<String> callback) {
+        Uri.Builder urlBuilder = new Uri.Builder();
+        urlBuilder.scheme(Constants.SCHEME)
+                .encodedAuthority(Constants.BASE_URL)
+                .appendPath(Constants.VERSION)
+                .appendPath(Methods.MATCHER_LYRICS_GET)
+                .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY)
+                .appendQueryParameter(Constants.QUERY_TRACK, trackName)
+                .appendQueryParameter(Constants.QUERY_ARTIST, artistName);
+        new TrackLyricsRemoteAsyncTask(trackName, artistName, callback).execute(urlBuilder.build().toString());
     }
 }

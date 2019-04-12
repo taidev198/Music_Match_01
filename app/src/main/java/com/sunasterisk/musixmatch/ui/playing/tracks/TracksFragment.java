@@ -9,6 +9,7 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
+import com.sunasterisk.musixmatch.data.source.remote.TrackRemoteDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
@@ -45,8 +46,9 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     protected void initData() {
-        mPresenter = new TracksPresenter(
-                TrackRepository.getInstance(TrackLocalDataSource.getInstance(getActivity())),
+        mPresenter = new TracksPresenter(TrackRepository.getInstance(
+                TrackLocalDataSource.getInstance(getActivity()),
+                TrackRemoteDataSource.getInstance()),
                 this);
         mPresenter.getLocalTracks();
     }

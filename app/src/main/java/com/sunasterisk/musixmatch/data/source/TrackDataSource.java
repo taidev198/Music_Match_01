@@ -15,6 +15,8 @@ public interface TrackDataSource {
         void getTracksByAlbum(int albumID, int limit, LoadTrackCallback callback);
 
         void searchTrack(String searchKey, int limit, LoadTrackCallback callback);
+
+        void getLyrics(String trackName, String artistName, Callback<String> callback);
     }
 
     interface LoadTrackCallback {

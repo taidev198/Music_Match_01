@@ -3,7 +3,6 @@ package com.sunasterisk.musixmatch.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +16,7 @@ public class Track implements Parcelable {
     private String mData;
     private long mDuration;
     private long mSize;
+    private String mLyrics;
 
     public Track(Builder builder) {
         mTrackId = builder.mTrackId;
@@ -28,6 +28,7 @@ public class Track implements Parcelable {
         mData = builder.mData;
         mDuration = builder.mDuration;
         mSize = builder.mSize;
+        mLyrics = builder.mLyrics;
     }
 
     public Track(JSONObject jsonObject) throws JSONException {
@@ -48,6 +49,7 @@ public class Track implements Parcelable {
         mData = in.readString();
         mDuration = in.readLong();
         mSize = in.readLong();
+        mLyrics = in.readString();
     }
 
     public static final Parcelable.Creator<Track> CREATOR = new Creator<Track>() {
@@ -98,6 +100,10 @@ public class Track implements Parcelable {
         return mSize;
     }
 
+    public String getLyrics() {
+        return mLyrics;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -114,6 +120,7 @@ public class Track implements Parcelable {
         parcel.writeString(mData);
         parcel.writeLong(mDuration);
         parcel.writeLong(mSize);
+        parcel.writeString(mLyrics);
     }
 
     public static class Builder {
@@ -126,6 +133,7 @@ public class Track implements Parcelable {
         private String mData;
         private long mDuration;
         private long mSize;
+        private String mLyrics;
 
         public Builder() {
         }
@@ -175,6 +183,11 @@ public class Track implements Parcelable {
             return this;
         }
 
+        public Builder setLyrics(String lyrics) {
+            mLyrics = lyrics;
+            return this;
+        }
+
         public Track build() {
             return new Track(this);
         }
@@ -194,6 +207,8 @@ public class Track implements Parcelable {
         public static final String ALBUM_NAME = "album_name";
         public static final String ALBUM_ID = "album_id";
         public static final String TRACK = "track";
+        public static final String LYRICS = "lyrics";
+        public static final String LYRICS_BODY = "lyrics_body";
     }
 
 }

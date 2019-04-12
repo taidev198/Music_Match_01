@@ -53,4 +53,9 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     public void searchTrack(String searchKey, int limit, TrackDataSource.LoadTrackCallback callback) {
         mRemote.searchTrack(searchKey, limit, callback);
     }
+
+    @Override
+    public void getLyrics(String trackName, String artistName, Callback<String> callback) {
+        mRemote.getLyrics(trackName,artistName,callback);
+    }
 }
