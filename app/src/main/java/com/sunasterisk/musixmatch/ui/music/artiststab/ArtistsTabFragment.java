@@ -24,6 +24,10 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     private RecyclerView mRecyclerView;
     private ArtistsContract.Presenter mPresenter;
 
+    public static ArtistsTabFragment newInstance() {
+        return new ArtistsTabFragment();
+    }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_tracks;
