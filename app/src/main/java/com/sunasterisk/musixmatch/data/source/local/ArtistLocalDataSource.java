@@ -14,12 +14,11 @@ import java.util.List;
 
 public class ArtistLocalDataSource implements ArtistDataSource.Local {
     private Context mContext;
+    private static ArtistLocalDataSource sInstance;
 
     public ArtistLocalDataSource(Context context) {
         mContext = context;
     }
-
-    private static ArtistLocalDataSource sInstance;
 
     public static ArtistLocalDataSource getInstance(Context context) {
         if (sInstance == null) {

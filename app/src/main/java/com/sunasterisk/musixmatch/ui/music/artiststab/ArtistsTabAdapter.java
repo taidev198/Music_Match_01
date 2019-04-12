@@ -44,22 +44,12 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
         @Override
         public void bindData(Artist artist) {
             if (artist != null) {
-                StringBuilder formatString = new StringBuilder();
+                StringBuilder stringBuilder = new StringBuilder();
                 mItem = artist;
                 mTextTitle.setText(artist.getArtistName());
-
-                if (artist.getNumberOfAlbums() > 1) {
-                    formatString.append(mContext.getResources().getString(R.string.text_albums));
-                } else {
-                    formatString.append(mContext.getResources().getString(R.string.text_album));
-                }
-                if (artist.getNumberOfTracks() > 1) {
-                    formatString.append(mContext.getResources().getString(R.string.text_tracks));
-                } else {
-                    formatString.append(mContext.getResources().getString(R.string.text_track));
-                }
-
-                mSubTitle = String.format(formatString.toString(),
+                stringBuilder.append(getNumberAlbumStr(artist.getNumberOfAlbums()))
+                        .append(getNumberAlbumTrackStr(artist.getNumberOfTracks()));
+                mSubTitle = String.format(stringBuilder.toString(),
                         artist.getNumberOfAlbums(), artist.getNumberOfTracks());
                 mTextSubTitle.setText(mSubTitle);
             }
@@ -98,6 +88,16 @@ public class ArtistsTabAdapter extends BaseAdapter<Artist, OnRecyclerItemClickLi
                     showOptionMenu();
                     break;
             }
+        }
+
+        private String getNumberAlbumStr(int count) {
+            return count > 1 ? mContext.getResources().getString(R.string.text_albums) :
+                    mContext.getResources().getString(R.string.text_album);
+        }
+
+        private String getNumberAlbumTrackStr(int count) {
+            return count > 1 ? mContext.getResources().getString(R.string.text_tracks) :
+                    mContext.getResources().getString(R.string.text_track);
         }
     }
 
