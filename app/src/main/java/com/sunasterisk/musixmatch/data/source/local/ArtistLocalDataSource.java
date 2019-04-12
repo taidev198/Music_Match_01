@@ -14,9 +14,17 @@ import java.util.List;
 
 public class ArtistLocalDataSource implements ArtistDataSource.Local {
     private Context mContext;
+    private static ArtistLocalDataSource sInstance;
 
     public ArtistLocalDataSource(Context context) {
         mContext = context;
+    }
+
+    public static ArtistLocalDataSource getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new ArtistLocalDataSource(context);
+        }
+        return sInstance;
     }
 
     @Override
