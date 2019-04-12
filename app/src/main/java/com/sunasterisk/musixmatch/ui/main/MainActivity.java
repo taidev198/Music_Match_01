@@ -7,13 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import com.sunasterisk.musixmatch.R;
+import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
+import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.main.home.HomeFragment;
-import com.sunasterisk.musixmatch.ui.music.FragmentMusic;
+import com.sunasterisk.musixmatch.ui.music.MusicFragment;
+import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.ui.search.SearchActivity;
 
+import java.util.List;
+
 public class MainActivity extends BaseActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener, TracksFragment.OnGetTracksListener, OnRecyclerItemClickListener<Track> {
     private BottomNavigationView mBottomNavigationView;
 
     @Override
@@ -39,7 +44,7 @@ public class MainActivity extends BaseActivity
                 replaceFragment(HomeFragment.newInstance());
                 break;
             case R.id.action_music:
-                replaceFragment(FragmentMusic.newInstance());
+                replaceFragment(MusicFragment.newInstance());
                 break;
             case R.id.action_search:
                 jumpToSearchScreen();
@@ -58,5 +63,25 @@ public class MainActivity extends BaseActivity
     private void jumpToSearchScreen() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPlayed(Track track) {
+
+    }
+
+    @Override
+    public void onGetTracksSuccess(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onItemClicked(Track item) {
+
+    }
+
+    @Override
+    public void onItemClicked(long id) {
+
     }
 }

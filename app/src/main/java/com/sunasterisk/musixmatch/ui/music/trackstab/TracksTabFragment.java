@@ -18,6 +18,11 @@ import java.util.List;
 public class TracksTabFragment extends TracksFragment implements OnRecyclerItemClickListener<Track> {
 
     protected TracksTabAdapter mAdapter;
+
+    public static TracksTabFragment newInstance() {
+        return new TracksTabFragment();
+    }
+
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_tracks_tab;
