@@ -42,8 +42,6 @@
         <provider
             android:name=".ui.search.SuggestionProvider"
             android:authorities="com.sunasterisk.musixmatch.ui.search.SuggestionProvider" />
-        <service
-            android:name=".service.MusicService"
-            android:enabled="true" />
+        <service android:name=".service.MusicService" />
     </application>
 </manifest>
