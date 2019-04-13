@@ -2,6 +2,7 @@ package com.sunasterisk.musixmatch.ui.music.trackstab;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import java.util.List;
  */
 public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickListener<Track>, TracksTabAdapter.MyViewHolder> {
 
-    public TracksTabAdapter(Context context) {
-        super(context);
+    public TracksTabAdapter(Context context, FragmentManager fm) {
+        super(context, fm);
     }
 
     @NonNull
@@ -42,7 +43,7 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
         public MyViewHolder(Context context,
                             @NonNull View itemView, OnRecyclerItemClickListener<Track> callback) {
             super(context, itemView, callback);
-            mTracksTabAdapter = new TracksTabAdapter(mContext);
+            mTracksTabAdapter = new TracksTabAdapter(mContext, mFragmentManager);
             mTracks = mTracksTabAdapter.getItems();
             mLogoTrack = itemView.findViewById(R.id.card_view_logo_track);
             mOptionMore.setOnClickListener(this);

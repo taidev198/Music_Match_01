@@ -23,7 +23,8 @@ public class ActivityUtils {
     public static void replaceFragment(@NonNull FragmentManager fragmentManager,
                                        @NonNull Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_main, fragment).addToBackStack(null)
+        transaction.replace(R.id.frame_main, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 

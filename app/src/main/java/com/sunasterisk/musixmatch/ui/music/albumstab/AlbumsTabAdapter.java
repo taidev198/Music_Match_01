@@ -27,11 +27,9 @@ import com.sunasterisk.musixmatch.utils.ActivityUtils;
 public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickListener<Album>, AlbumsTabAdapter.AlbumsViewHolder> {
 
     public static final String ARGUMENT_ALBUM_ITEM = "ARGUMENT_ALBUM_ITEM";
-    private static FragmentManager mFragmentManager;
 
     public AlbumsTabAdapter(Context context, FragmentManager fm) {
-        super(context);
-        mFragmentManager = fm;
+        super(context, fm);
     }
 
     public static AlbumDetailsFragment getAlbumDetailsFragment(Album album) {

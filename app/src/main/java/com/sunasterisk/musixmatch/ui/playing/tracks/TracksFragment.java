@@ -54,7 +54,7 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksAdapter(getContext());
+        mAdapter = new TracksAdapter(getContext(), mFragmentManager);
         mAdapter.setCallBack(this);
         mTracks = tracks;
         mAdapter.setItems(tracks);

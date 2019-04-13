@@ -2,6 +2,7 @@ package com.sunasterisk.musixmatch.ui.music.albumstab.albumdetails;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +12,21 @@ import android.widget.TextView;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Album;
+import com.sunasterisk.musixmatch.data.model.Artist;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.music.albumstab.AlbumsTabAdapter;
+import com.sunasterisk.musixmatch.ui.music.artiststab.artistdetails.ArtistDetailsAdapter;
+import com.sunasterisk.musixmatch.ui.music.artiststab.artistdetails.ArtistDetailsFragment;
 import com.sunasterisk.musixmatch.ui.music.trackstab.TracksTabAdapter;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 
 import java.util.List;
+
+import static com.sunasterisk.musixmatch.ui.music.artiststab.artistdetails.ArtistDetailsAdapter.ARGUMENT_ALBUMS_ITEM;
 
 /**
  * Created by superme198 on 05,April,2019
@@ -44,6 +50,14 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     public static AlbumDetailsFragment newInstance(){
         return new AlbumDetailsFragment();
+    }
+
+    public static AlbumDetailsFragment getInstance(Album album) {
+        AlbumDetailsFragment fragment = new AlbumDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARGUMENT_ALBUMS_ITEM, album);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -79,7 +93,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     @Override
     protected void initData() {
-        mAlbum = getArguments().getParcelable(AlbumsTabAdapter.ARGUMENT_ALBUM_ITEM);
+        mAlbum = getArguments().getParcelable(ArtistDetailsAdapter.ARGUMENT_ALBUMS_ITEM);
         TrackRepository repository = TrackRepository.getInstance(
                 TrackLocalDataSource.getInstance(getContext()));
         mPresenter = new AlbumDetailsPresenter(repository, this, mAlbum);
@@ -99,7 +113,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     @Override
     public void showTracksFromAlbum(List<Track> tracks) {
-        mAdapter = new TracksTabAdapter(getContext());
+        mAdapter = new TracksTabAdapter(getContext(), mFragmentManager);
         mAdapter.setItems(tracks);
         mAdapter.setCallBack(this);
         mRecyclerView.setAdapter(mAdapter);
