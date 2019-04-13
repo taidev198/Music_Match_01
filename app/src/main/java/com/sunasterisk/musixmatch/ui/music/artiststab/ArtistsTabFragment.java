@@ -51,7 +51,7 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     }
 
     @Override
-    public void onItemClicked(long id) {
+    public void onItemClicked(Artist item, List<Artist> items) {
 
     }
 

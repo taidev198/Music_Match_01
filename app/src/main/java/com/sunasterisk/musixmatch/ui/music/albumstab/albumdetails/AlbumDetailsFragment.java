@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.albumstab.albumdetails;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -17,6 +18,7 @@ import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 import com.sunasterisk.musixmatch.ui.music.albumstab.AlbumsTabAdapter;
 import com.sunasterisk.musixmatch.ui.music.trackstab.TracksTabAdapter;
+import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 
 import java.util.List;
 
@@ -38,6 +40,22 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     private TextView mAlbumName;
     private TextView mCurrentSongName;
     private TextView mNumsSong;
+    private TracksFragment.OnGetTracksListener mCallback;
+
+    public static AlbumDetailsFragment newInstance(){
+        return new AlbumDetailsFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (TracksFragment.OnGetTracksListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnTrackClickListener");
+        }
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -66,7 +84,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
                 TrackLocalDataSource.getInstance(getContext()));
         mPresenter = new AlbumDetailsPresenter(repository, this, mAlbum);
         mPresenter.getLocalTracks();
-        setAlbumInfo(mAlbum);
+        //setAlbumInfo(mAlbum);
     }
 
     @Override
@@ -75,7 +93,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     }
 
     @Override
-    public void onItemClicked(long id) {
+    public void onItemClicked(Track item, List<Track> items) {
 
     }
 
