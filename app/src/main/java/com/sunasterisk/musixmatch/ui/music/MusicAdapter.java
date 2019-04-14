@@ -17,8 +17,8 @@ import com.sunasterisk.musixmatch.ui.music.trackstab.TracksTabFragment;
  */
 public class MusicAdapter extends FragmentPagerAdapter {
 
-    private static final int ALBUM =0;
-    private static final int ARTIST =1;
+    private static final int ALBUM = 0;
+    private static final int ARTIST = 1;
     private static final int TRACK = 2;
     private static final int PLAYLIST = 3;
     private static final int[] TABS = {ALBUM, ARTIST, TRACK, PLAYLIST};
