@@ -3,7 +3,6 @@ package com.sunasterisk.musixmatch.ui.main;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import com.sunasterisk.musixmatch.R;
@@ -14,11 +13,13 @@ import com.sunasterisk.musixmatch.ui.main.home.HomeFragment;
 import com.sunasterisk.musixmatch.ui.music.MusicFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.ui.search.SearchActivity;
+import com.sunasterisk.musixmatch.utils.ActivityUtils;
 
 import java.util.List;
 
 public class MainActivity extends BaseActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener, TracksFragment.OnGetTracksListener, OnRecyclerItemClickListener<Track> {
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+        TracksFragment.OnGetTracksListener, OnRecyclerItemClickListener<Track> {
     private BottomNavigationView mBottomNavigationView;
 
     @Override
@@ -41,23 +42,16 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_home:
-                replaceFragment(HomeFragment.newInstance());
+                ActivityUtils.replaceFragment(getSupportFragmentManager(), HomeFragment.newInstance());
                 break;
             case R.id.action_music:
-                replaceFragment(MusicFragment.newInstance());
+                ActivityUtils.replaceFragment(getSupportFragmentManager(), MusicFragment.newInstance());
                 break;
             case R.id.action_search:
                 jumpToSearchScreen();
                 break;
         }
         return true;
-    }
-
-    private void replaceFragment(@NonNull Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_main, fragment)
-                .commit();
     }
 
     private void jumpToSearchScreen() {
