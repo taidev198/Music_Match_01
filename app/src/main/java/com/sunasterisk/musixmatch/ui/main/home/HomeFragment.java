@@ -3,8 +3,6 @@ package com.sunasterisk.musixmatch.ui.main.home;
 import android.view.View;
 
 import com.sunasterisk.musixmatch.R;
-import com.sunasterisk.musixmatch.data.repository.PlaylistRepository;
-import com.sunasterisk.musixmatch.data.source.local.PlaylistLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
