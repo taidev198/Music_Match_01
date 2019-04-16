@@ -54,4 +54,13 @@ public class TrackLoaderUtils {
         }
         return tracks;
     }
+
+    public static String getLyricsFromJSON(String jsonString) throws JSONException {
+        JSONObject root = new JSONObject(jsonString);
+        String lyrics = root.getJSONObject(Track.JSonKey.MESSAGE)
+                .getJSONObject(Track.JSonKey.BODY)
+                .getJSONObject(Track.JSonKey.LYRICS)
+                .getString(Track.JSonKey.LYRICS_BODY);
+        return lyrics;
+    }
 }

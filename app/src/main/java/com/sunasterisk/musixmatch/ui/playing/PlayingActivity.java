@@ -21,6 +21,7 @@ import com.sunasterisk.musixmatch.service.MediaListener;
 import com.sunasterisk.musixmatch.service.MusicService;
 import com.sunasterisk.musixmatch.service.OnMediaPlayerChangeListener;
 import com.sunasterisk.musixmatch.ui.base.BaseActivity;
+import com.sunasterisk.musixmatch.ui.playing.lyrics.LyricsFragment;
 import com.sunasterisk.musixmatch.ui.playing.thumbnail.ThumbnailFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.utils.Constants;
@@ -245,11 +246,16 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     }
 
     private void onTrackPlayed(Track track) {
-        Fragment fragment = getSupportFragmentManager()
+        Fragment thumbnailFragment = getSupportFragmentManager()
                 .findFragmentByTag(Constants.FragmentTag.THUMB_NAIL);
-        if (fragment != null && fragment instanceof ThumbnailFragment) {
-            ((ThumbnailFragment) fragment).getTrack(track);
-            ((ThumbnailFragment) fragment).setImageTrack(mAlbums);
+        if (thumbnailFragment != null && thumbnailFragment instanceof ThumbnailFragment) {
+            ((ThumbnailFragment) thumbnailFragment).getTrack(track);
+            ((ThumbnailFragment) thumbnailFragment).setImageTrack(mAlbums);
+        }
+        Fragment lyricsFragment = getSupportFragmentManager()
+                .findFragmentByTag(Constants.FragmentTag.LYRICS);
+        if (lyricsFragment != null && lyricsFragment instanceof LyricsFragment) {
+            ((LyricsFragment) lyricsFragment).getLyrics(track);
         }
     }
 }

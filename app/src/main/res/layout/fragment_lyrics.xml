@@ -8,22 +8,33 @@
     android:paddingRight="@dimen/dp_8"
     android:paddingBottom="@dimen/dp_16">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_lyrics"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_8"
         android:background="@drawable/bg_lyrics"
         android:padding="@dimen/dp_16"
         android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_lyrics"
+            style="?android:textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="@dimen/dp_8"
+            android:textColor="@android:color/white"
+            android:typeface="monospace" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/text_refresh"
-        style="?android:textAppearanceSmall"
+        style="?android:textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_24"
