@@ -9,20 +9,20 @@ import android.os.Parcelable;
  */
 public class Playlist implements Parcelable {
 
-    private int mPlaylistId;
-    private String mPlaylistName;
-    private int mNumSongs;
+    private int mId;
+    private String mName;
+    private int mSongsCount;
 
-    public Playlist(Builder builder) {
-        mNumSongs = builder.mNumSongs;
-        mPlaylistId = builder.mPlaylistId;
-        mPlaylistName = builder.mPlaylistName;
+    public Playlist(int id, String name, int songsCount) {
+        mSongsCount = songsCount;
+        mId = id;
+        mName = name;
     }
 
     protected Playlist(Parcel in) {
-        mNumSongs = in.readInt();
-        mPlaylistId = in.readInt();
-        mPlaylistName = in.readString();
+        mSongsCount = in.readInt();
+        mId = in.readInt();
+        mName = in.readString();
     }
 
     public static final Creator<Playlist> CREATOR = new Creator<Playlist>() {
@@ -44,61 +44,32 @@ public class Playlist implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(mPlaylistId);
-        parcel.writeString(mPlaylistName);
-        parcel.writeInt(mNumSongs);
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeInt(mSongsCount);
     }
 
-    public int getPlaylistId() {
-        return mPlaylistId;
+    public int getId() {
+        return mId;
     }
 
-    public void setPlaylistId(int mPlaylistId) {
-        this.mPlaylistId = mPlaylistId;
+    public void setId(int mPlaylistId) {
+        this.mId = mPlaylistId;
     }
 
-    public String getPlaylistName() {
-        return mPlaylistName;
+    public String getName() {
+        return mName;
     }
 
-    public void setPlaylistName(String mPlaylistName) {
-        this.mPlaylistName = mPlaylistName;
+    public void setName(String mPlaylistName) {
+        this.mName = mPlaylistName;
     }
 
-    public int getNumSongs() {
-        return mNumSongs;
+    public int getSongsCount() {
+        return mSongsCount;
     }
 
-    public void setNumSongs(int mNumSongs) {
-        this.mNumSongs = mNumSongs;
-    }
-
-    public static class Builder {
-        private int mPlaylistId;
-        private String mPlaylistName;
-        private int mNumSongs;
-
-        public Builder() {
-
-        }
-
-        public Builder setPlaylistId(int mPlaylistId) {
-            this.mPlaylistId = mPlaylistId;
-            return this;
-        }
-
-        public Builder setPlaylistName(String mPlaylistName) {
-            this.mPlaylistName = mPlaylistName;
-            return this;
-        }
-
-        public Builder setNumSongs(int mNumSongs) {
-            this.mNumSongs = mNumSongs;
-            return this;
-        }
-
-        public Playlist build() {
-            return new Playlist(this);
-        }
+    public void setSongsCount(int mNumSongs) {
+        this.mSongsCount = mNumSongs;
     }
 }

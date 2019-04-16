@@ -13,7 +13,6 @@ import com.sunasterisk.musixmatch.ui.main.home.HomeFragment;
 import com.sunasterisk.musixmatch.ui.music.MusicFragment;
 import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 import com.sunasterisk.musixmatch.ui.search.SearchActivity;
-import com.sunasterisk.musixmatch.utils.ActivityUtils;
 
 import java.util.List;
 
@@ -42,10 +41,10 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_home:
-                ActivityUtils.replaceFragment(getSupportFragmentManager(), HomeFragment.newInstance());
+                BaseActivity.replaceFragment(HomeFragment.newInstance());
                 break;
             case R.id.action_music:
-                ActivityUtils.replaceFragment(getSupportFragmentManager(), MusicFragment.newInstance());
+                BaseActivity.replaceFragment(MusicFragment.newInstance());
                 break;
             case R.id.action_search:
                 jumpToSearchScreen();

@@ -33,4 +33,6 @@
     <string name="text_artist_tab">ARTIST</string>
     <string name="text_track_tab">TRACK</string>
     <string name="text_playlist_tab">PLAYLIST</string>
+    <!--playlist tab-->
+    <string name="text_rename_playlist">Rename</string>
 </resources>

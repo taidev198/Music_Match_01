@@ -13,16 +13,6 @@ public interface PlaylistDataSource {
 
     interface Local {
 
-        void getPlaylistId(Callback<List<Playlist>> callback);
-
-        long getPlaylistId(String name);
-
-        long createPlaylist(String name);
-
-        void deletePlaylist(long id);
-
-        void removeTrackFromPlaylist(long playlistId, Track track);
-
-        void renamePlaylist(long id, String newName);
+        void getPlaylist(Callback<List<Playlist>> callback);
     }
 }

@@ -22,7 +22,7 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
 
     @Override
     public void getLocalPlaylist() {
-        mRepository.getPlaylistId(new Callback<List<Playlist>>() {
+        mRepository.getPlaylist(new Callback<List<Playlist>>() {
             @Override
             public void getDataSuccess(List<Playlist> data) {
                 mView.showPlaylist(data);

@@ -28,32 +28,7 @@ public class PlaylistRepository implements PlaylistDataSource.Local {
     }
 
     @Override
-    public void getPlaylistId(Callback<List<Playlist>> callback) {
-        mLocal.getPlaylistId(callback);
-    }
-
-    @Override
-    public long getPlaylistId(String name) {
-        return mLocal.getPlaylistId(name);
-    }
-
-    @Override
-    public long createPlaylist(String name) {
-        return mLocal.createPlaylist(name);
-    }
-
-    @Override
-    public void deletePlaylist(long id) {
-        mLocal.deletePlaylist(id);
-    }
-
-    @Override
-    public void removeTrackFromPlaylist(long playlistId, Track track) {
-        mLocal.removeTrackFromPlaylist(playlistId, track);
-    }
-
-    @Override
-    public void renamePlaylist(long id, String newName) {
-        mLocal.renamePlaylist(id, newName);
+    public void getPlaylist(Callback<List<Playlist>> callback) {
+        mLocal.getPlaylist(callback);
     }
 }

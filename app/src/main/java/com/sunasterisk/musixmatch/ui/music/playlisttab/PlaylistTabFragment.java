@@ -2,6 +2,7 @@ package com.sunasterisk.musixmatch.ui.music.playlisttab;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Playlist;
@@ -16,7 +17,8 @@ import java.util.List;
  * Created by superme198 on 14,April,2019
  * in Music_Match__1.
  */
-public class PlaylistTabFragment extends BaseFragment implements PlaylistTabContract.View, OnRecyclerItemClickListener<Playlist> {
+public class PlaylistTabFragment extends BaseFragment implements PlaylistTabContract.View,
+        OnRecyclerItemClickListener<Playlist> {
 
     private RecyclerView mRecyclerView;
     private PlaylistTabContract.Presenter mPresenter;
@@ -38,7 +40,8 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
 
     @Override
     protected void initData() {
-        PlaylistRepository repository = PlaylistRepository.getsInstance(PlaylistLocalDataSource.getsInstance(getContext()));
+        PlaylistRepository repository = PlaylistRepository.getsInstance(
+                PlaylistLocalDataSource.getsInstance(getContext()));
         mPresenter = new PlaylistTabPresenter(repository, this);
         mPresenter.getLocalPlaylist();
     }
@@ -53,7 +56,7 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
 
     @Override
     public void showError(Exception e) {
-
+        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
