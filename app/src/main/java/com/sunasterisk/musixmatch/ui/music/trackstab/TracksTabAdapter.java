@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.trackstab;
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunasterisk.musixmatch.R;
+import com.sunasterisk.musixmatch.application.MusixMatchApplication;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
+import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
 
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_track, viewGroup, false);
-        return new MyViewHolder(mContext, itemView, mCallback);
+        return new MyViewHolder(mContext, itemView, this, mCallback);
     }
 
     public static class MyViewHolder extends BaseTrackViewHolder<Track, OnRecyclerItemClickListener<Track>> {
@@ -39,10 +42,11 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
         private CardView mLogoTrack;
         private TracksTabAdapter mTracksTabAdapter;
         private List<Track> mTracks;
+
         public MyViewHolder(Context context,
-                            @NonNull View itemView, OnRecyclerItemClickListener<Track> callback) {
+                            @NonNull View itemView, TracksTabAdapter tracksTabAdapter, OnRecyclerItemClickListener<Track> callback) {
             super(context, itemView, callback);
-            mTracksTabAdapter = new TracksTabAdapter(mContext);
+            mTracksTabAdapter = tracksTabAdapter;
             mTracks = mTracksTabAdapter.getItems();
             mLogoTrack = itemView.findViewById(R.id.card_view_logo_track);
             mOptionMore.setOnClickListener(this);
@@ -65,6 +69,7 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.play:
+                        play();
                         return true;
                     case R.id.add_to_queue:
                         return true;
@@ -87,14 +92,17 @@ public class TracksTabAdapter extends BaseAdapter<Track, OnRecyclerItemClickList
                     showOptionMenu();
                     break;
                 default:
-                    System.out.println(mItem.getData());
-                    mCallback.onItemClicked(mItem, mTracks);
+                    play();
                     break;
             }
         }
 
         private void showLogoTrack() {
             mLogoTrack.setVisibility(View.VISIBLE);
+        }
+
+        private void play(){
+            mContext.startActivity(PlayingActivity.getPlayingActivity(MusixMatchApplication.getInstance(), mItem, mTracks));
         }
     }
 

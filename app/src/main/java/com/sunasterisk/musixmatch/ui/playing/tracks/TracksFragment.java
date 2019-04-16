@@ -1,6 +1,8 @@
 package com.sunasterisk.musixmatch.ui.playing.tracks;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -11,7 +13,9 @@ import com.sunasterisk.musixmatch.data.repository.TrackRepository;
 import com.sunasterisk.musixmatch.data.source.local.TrackLocalDataSource;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
+import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TracksFragment extends BaseFragment implements TracksContract.View,
@@ -21,7 +25,15 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
     protected TracksAdapter mAdapter;
     protected OnGetTracksListener mCallback;
     protected List<Track> mTracks;
+    public static final String ARGUMENT_TRACKS = "ARGUMENT_TRACKS";
 
+    public static TracksFragment newInstance(List<Track> tracks) {
+        TracksFragment fragment = new TracksFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(ARGUMENT_TRACKS, (ArrayList<? extends Parcelable>) tracks);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -46,20 +58,20 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     protected void initData() {
-        mPresenter = new TracksPresenter(
-                TrackRepository.getInstance(TrackLocalDataSource.getInstance(getActivity())),
-                this);
-        mPresenter.getLocalTracks();
+        Bundle args = getArguments();
+        mAdapter = new TracksAdapter(getContext());
+        mAdapter.setCallBack(this);
+        if (args != null) {
+            mTracks = args.getParcelableArrayList(ARGUMENT_TRACKS);
+            mAdapter.setItems(mTracks);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+
     }
 
     @Override
     public void showLocalTracks(List<Track> tracks) {
-        mAdapter = new TracksAdapter(getContext());
-        mAdapter.setCallBack(this);
-        mTracks = tracks;
-        mAdapter.setItems(tracks);
-        mRecyclerView.setAdapter(mAdapter);
-        mCallback.onGetTracksSuccess(tracks);
+
     }
 
     @Override
@@ -75,7 +87,6 @@ public class TracksFragment extends BaseFragment implements TracksContract.View,
 
     @Override
     public void onItemClicked(Track item, List<Track> items) {
-        mCallback.onGetTracksSuccess(items);
         mCallback.onPlayed(item);
     }
 

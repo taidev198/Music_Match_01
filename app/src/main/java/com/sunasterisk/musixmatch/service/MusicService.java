@@ -21,6 +21,7 @@ import android.widget.RemoteViews;
 import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.ui.playing.PlayingActivity;
+import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +92,11 @@ public class MusicService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPosition = intent.getIntExtra(EXTRA_TRACK_POSITION, 0);
-        mTracks = intent.getParcelableArrayListExtra(EXTRA_TRACK);
+        mTracks = intent.getExtras().getParcelableArrayList(EXTRA_TRACK);
+        play(mTracks.get(mPosition).getData());
         pushNotification();
+
+        //mCallback.onPlayed(mTracks.get(mPosition));
         return START_NOT_STICKY;
     }
 
@@ -164,6 +168,16 @@ public class MusicService extends Service
     @Override
     public int getStateLoop() {
         return mStateLoop;
+    }
+
+    @Override
+    public void setTracks(List<Track> tracks) {
+        mTracks = tracks;
+    }
+
+    @Override
+    public void setPosition(int pos) {
+        mPosition = pos;
     }
 
     @Override

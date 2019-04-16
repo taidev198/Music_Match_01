@@ -1,6 +1,9 @@
 package com.sunasterisk.musixmatch.service;
 
 import com.sunasterisk.musixmatch.data.model.Track;
+import com.sunasterisk.musixmatch.ui.playing.tracks.TracksFragment;
+
+import java.util.List;
 
 public interface MediaListener {
     boolean isPlaying();
@@ -30,4 +33,8 @@ public interface MediaListener {
     void setStateLoop(int state);
 
     int getStateLoop();
+
+    void setTracks(List<Track> tracks);
+
+    void setPosition(int pos);
 }

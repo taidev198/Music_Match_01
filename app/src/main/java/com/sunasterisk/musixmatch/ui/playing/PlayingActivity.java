@@ -38,6 +38,7 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
         ThumbnailFragment.OnGetAlbumsListener, OnMediaPlayerChangeListener, View.OnClickListener,
         SeekBar.OnSeekBarChangeListener {
     private static final int TIME_DELAY = 1000;
+    private static final String TAG = "Hello World";
     private TextView mTextTrackName;
     private TextView mTextArtistName;
     private TextView mTextCurrentTime;
@@ -52,7 +53,8 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     private TabLayout mTabDots;
     private PlayingViewPagerAdapter mPagerAdapter;
     private List<Album> mAlbums;
-    private List<Track> mTracks;
+    private List<Track> mTracks = new ArrayList<>();
+    private Track mTrack;
     private int mPosition;
     private MusicService mMusicService;
     private MediaListener mMediaListener;
@@ -70,6 +72,19 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
             mMediaListener = mMusicService.getMediaListener();
             mMusicService.setOnMediaPlayerChangeListener(PlayingActivity.this);
             mLoopState = mMediaListener.getStateLoop();
+            mBundle = getIntent().getExtras();
+            if (mBundle != null) {
+                mTracks = mBundle.getParcelableArrayList(MainActivity.EXTRA_TRACKS);
+                mTrack = mBundle.getParcelable(MainActivity.EXTRA_TRACK);
+                for (int i = 0; i < mTracks.size(); i++) {
+                    if (mTracks.get(i).getData().equals(mTrack.getData())) {
+                        mPosition = i;
+                        showThumbNail();
+                        startService(MusicService.getIntentService(getApplicationContext(), mTracks, mPosition));
+                        break;
+                    }
+                }
+            }
         }
 
         @Override
@@ -77,6 +92,13 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
         }
     };
+
+    public static Intent getPlayingActivity(Context context, Track currentTrack, List<Track> tracks) {
+        Intent intent = new Intent(context, PlayingActivity.class);
+        intent.putParcelableArrayListExtra(EXTRA_TRACKS, (ArrayList<? extends Parcelable>) tracks);
+        intent.putExtra(EXTRA_TRACK, currentTrack);
+        return intent;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -97,10 +119,6 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
         mButtonFavorite = findViewById(R.id.button_favorite);
         mViewPager = findViewById(R.id.view_pager);
         mTabDots = findViewById(R.id.tab_dots);
-        mPagerAdapter = new PlayingViewPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setCurrentItem(PlayingViewPagerAdapter.THUMB_NAIL);
-        mTabDots.setupWithViewPager(mViewPager);
         setEventListener();
     }
 
@@ -116,28 +134,13 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("start");
         Intent intent = new Intent(getApplicationContext(), MusicService.class);
         bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-    }
-
-    public static Intent getPlayingActivity(Context context, Track currentTrack, List<Track> tracks) {
-        Intent intent = new Intent(context, PlayingActivity.class);
-        intent.putParcelableArrayListExtra(EXTRA_TRACKS, (ArrayList<? extends Parcelable>) tracks);
-        intent.putExtra(EXTRA_TRACK, currentTrack);
-        return intent;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("resume");
-        mBundle = getIntent().getExtras();
-        System.out.println(mLoopState == 0);
-        if (mBundle != null) {
-            onGetTracksSuccess(mBundle.getParcelableArrayList(MainActivity.EXTRA_TRACKS));
-            onPlayed(mBundle.getParcelable(MainActivity.EXTRA_TRACK));
-        }
     }
 
     @Override
@@ -147,18 +150,14 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
 
     @Override
     public void onPlayed(Track track) {
-        System.out.println(track.getData());
-        mPosition = mTracks.indexOf(track);
-        startService(MusicService.getIntentService(this, mTracks, mPosition));
+        mMediaListener.setPosition(mTracks.indexOf(track));
         mMediaListener.play(track.getData());
-        onTrackPlayed(track);
-        setTrackData(track);
     }
 
     @Override
     public void onGetTracksSuccess(List<Track> tracks) {
         mTracks = tracks;
-        startService(MusicService.getIntentService(this, tracks, mPosition));
+        // mMediaListener.setTracks(tracks);
     }
 
     @Override
@@ -280,5 +279,13 @@ public class PlayingActivity extends BaseActivity implements TracksFragment.OnGe
             ((ThumbnailFragment) fragment).getTrack(track);
             ((ThumbnailFragment) fragment).setImageTrack(mAlbums);
         }
+    }
+
+    private void showThumbNail() {
+        mPagerAdapter = new PlayingViewPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.setTracks(mTracks);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setCurrentItem(PlayingViewPagerAdapter.THUMB_NAIL);
+        mTabDots.setupWithViewPager(mViewPager);
     }
 }

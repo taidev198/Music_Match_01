@@ -85,11 +85,11 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onItemClicked(Track item) {
-        startActivity(PlayingActivity.getPlayingActivity(this, mCurrentTrack, mTracks));
     }
 
     @Override
     public void onItemClicked(Track item, List<Track> items) {
-
+        System.out.println("clicked");
+        startActivity(PlayingActivity.getPlayingActivity(this, item, items));
     }
 }
