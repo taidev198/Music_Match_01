@@ -3,7 +3,6 @@ package com.sunasterisk.musixmatch.ui.playing.lyrics;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,7 +45,7 @@ public class LyricsFragment extends BaseFragment implements LyricsContract.View,
 
     @Override
     public void showLyrics(String lyrics) {
-        if (isOnline()) {
+        if (isInternetConnected()) {
             mTextLyrics.setText(lyrics);
             mTextInternetConnection.setVisibility(View.INVISIBLE);
             mTextRefresh.setVisibility(View.INVISIBLE);
@@ -59,7 +58,6 @@ public class LyricsFragment extends BaseFragment implements LyricsContract.View,
 
     @Override
     public void showError(Exception e) {
-        Log.e(getClass().getName(), e.getMessage());
         showLyrics(getActivity().getString(R.string.text_lyrics_not_found));
     }
 
@@ -74,7 +72,7 @@ public class LyricsFragment extends BaseFragment implements LyricsContract.View,
         mPresenter.getLyrics(mTrackName, mArtistName);
     }
 
-    private boolean isOnline() {
+    private boolean isInternetConnected() {
         ConnectivityManager cm = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();

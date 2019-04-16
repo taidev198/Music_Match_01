@@ -74,6 +74,6 @@ public class TrackRemoteDataSource implements TrackDataSource.RemoteDataSource {
                 .appendQueryParameter(Constants.API_KEY, BuildConfig.API_KEY)
                 .appendQueryParameter(Constants.QUERY_TRACK, trackName)
                 .appendQueryParameter(Constants.QUERY_ARTIST, artistName);
-        new TrackLyricsRemoteAsyncTask(trackName, artistName, callback).execute(urlBuilder.build().toString());
+        new LyricsRemoteAsyncTask(trackName, artistName, callback).execute(urlBuilder.build().toString());
     }
 }

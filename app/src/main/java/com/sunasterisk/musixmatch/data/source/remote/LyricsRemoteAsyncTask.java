@@ -9,13 +9,13 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-public class TrackLyricsRemoteAsyncTask extends AsyncTask<String, Void, String> {
+public class LyricsRemoteAsyncTask extends AsyncTask<String, Void, String> {
     private String mTrackName;
     private String mArtistName;
     private Exception mException;
     private Callback<String> mCallback;
 
-    public TrackLyricsRemoteAsyncTask(String trackName, String artistName, Callback<String> callback) {
+    public LyricsRemoteAsyncTask(String trackName, String artistName, Callback<String> callback) {
         mTrackName = trackName;
         mArtistName = artistName;
         mCallback = callback;
