@@ -35,4 +35,6 @@
     <string name="text_playlist_tab">PLAYLIST</string>
     <!--playlist tab-->
     <string name="text_rename_playlist">Rename</string>
+    <string name="text_your_favorite_songs">Favorite</string>
+    <string name="text_recently_played">Recently Played</string>
 </resources>

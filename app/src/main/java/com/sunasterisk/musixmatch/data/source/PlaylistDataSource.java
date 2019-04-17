@@ -14,5 +14,9 @@ public interface PlaylistDataSource {
     interface Local {
 
         void getPlaylist(Callback<List<Playlist>> callback);
+
+        void getTrackFromRecentlyPlayed(Callback<List<Track>> callback);
+
+        void getTrackFromFavorite(Callback<List<Track>> callback);
     }
 }

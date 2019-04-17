@@ -31,4 +31,14 @@ public class PlaylistRepository implements PlaylistDataSource.Local {
     public void getPlaylist(Callback<List<Playlist>> callback) {
         mLocal.getPlaylist(callback);
     }
+
+    @Override
+    public void getTrackFromRecentlyPlayed(Callback<List<Track>> callback) {
+        mLocal.getTrackFromRecentlyPlayed(callback);
+    }
+
+    @Override
+    public void getTrackFromFavorite(Callback<List<Track>> callback) {
+        mLocal.getTrackFromFavorite(callback);
+    }
 }
