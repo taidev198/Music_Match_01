@@ -13,7 +13,7 @@ import com.sunasterisk.musixmatch.data.model.Playlist;
 import com.sunasterisk.musixmatch.ui.base.BaseAdapter;
 import com.sunasterisk.musixmatch.ui.base.BaseTrackViewHolder;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
-import com.sunasterisk.musixmatch.utils.PlaylistUtils;
+import com.sunasterisk.musixmatch.utils.PlaylistHelper;
 
 /**
  * Created by superme198 on 14,April,2019
@@ -59,10 +59,10 @@ public class PlaylistTabAdapter extends BaseAdapter<Playlist,
                     case R.id.add_to_queue:
                         return true;
                     case R.id.delete:
-                        PlaylistUtils.deletePlaylist(mContext, mItem.getId());
+                        PlaylistHelper.getsInstance(mContext).deletePlaylist(mItem.getId());
                         return true;
                     case R.id.rename_playlist:
-                        PlaylistUtils.renamePlaylist(mContext, mItem.getId(), "");
+                        PlaylistHelper.getsInstance(mContext).renamePlaylist(mItem.getId(), "");
                         return true;
                     default:
                         return false;

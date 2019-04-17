@@ -53,23 +53,23 @@ public class Playlist implements Parcelable {
         return mId;
     }
 
-    public void setId(int mPlaylistId) {
-        this.mId = mPlaylistId;
+    public void setId(int mId) {
+        this.mId = mId;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String mPlaylistName) {
-        this.mName = mPlaylistName;
+    public void setName(String mName) {
+        this.mName = mName;
     }
 
     public int getSongsCount() {
         return mSongsCount;
     }
 
-    public void setSongsCount(int mNumSongs) {
-        this.mSongsCount = mNumSongs;
+    public void setSongsCount(int mSongsCount) {
+        this.mSongsCount = mSongsCount;
     }
 }

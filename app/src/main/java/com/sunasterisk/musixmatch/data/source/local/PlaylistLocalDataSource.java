@@ -1,8 +1,6 @@
 package com.sunasterisk.musixmatch.data.source.local;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,7 +8,6 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 
 import com.sunasterisk.musixmatch.data.model.Playlist;
-import com.sunasterisk.musixmatch.data.model.Track;
 import com.sunasterisk.musixmatch.data.source.Callback;
 import com.sunasterisk.musixmatch.data.source.PlaylistDataSource;
 
@@ -25,10 +22,7 @@ import java.util.List;
 public class PlaylistLocalDataSource implements PlaylistDataSource.Local {
 
     private static PlaylistLocalDataSource sInstance;
-    private static final String VOLUME_NAME = "external";
-    private static final int ERROR_INDEX = -1;
-    private static final int BASE_INDEX = 0;
-    private static final int INCREASE_INDEX = 1;
+    private static final String CONTENT_URI_MEDIA = "external";
     private Context mContext;
     private ContentResolver mContentResolver;
 
@@ -66,7 +60,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource.Local {
         Cursor cursor = null;
         try {
             cursor = mContentResolver.query(
-                    MediaStore.Audio.Playlists.Members.getContentUri(VOLUME_NAME, playlistId),
+                    MediaStore.Audio.Playlists.Members.getContentUri(CONTENT_URI_MEDIA, playlistId),
                     new String[]{
                             MediaStore.Audio.Playlists.Members.AUDIO_ID,
                     }, null, null,
@@ -82,7 +76,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource.Local {
             }
         }
 
-        return BASE_INDEX;
+        return 0;
     }
 
     private List<Playlist> getLocalPlaylist() {
