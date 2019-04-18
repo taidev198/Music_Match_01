@@ -34,4 +34,11 @@
     <string name="text_artist_tab">ARTIST</string>
     <string name="text_track_tab">TRACK</string>
     <string name="text_playlist_tab">PLAYLIST</string>
+    <!--activity_track_info-->
+    <string name="text_path">Path:\u0020</string>
+    <string name="text_size">Size:\u0020 </string>
+    <string name="text_albums_info">Albums</string>
+    <string name="text_artists_info">Artists</string>
+    <string name="text_title_info">Title</string>
+    <string name="text_song_information">Song Information</string>
 </resources>
