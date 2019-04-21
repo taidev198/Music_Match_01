@@ -47,10 +47,6 @@ public class PlaylistTabAdapter extends BaseAdapter<Playlist,
         }
 
         @Override
-        public void showOptionMenu() {
-        }
-
-        @Override
         public void onClick(View v) {
 
             switch (v.getId()) {

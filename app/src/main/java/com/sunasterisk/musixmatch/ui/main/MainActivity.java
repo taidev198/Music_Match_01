@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
-        TracksFragment.OnGetTracksListener, OnRecyclerItemClickListener<Track> {
+        TracksFragment.OnGetTracksListener {
     private BottomNavigationView mBottomNavigationView;
 
     @Override

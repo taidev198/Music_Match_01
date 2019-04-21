@@ -1,6 +1,7 @@
 package com.sunasterisk.musixmatch.ui.music.albumstab;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -48,13 +49,14 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     }
 
     @Override
-    public void onItemClicked(Album item) {
-
-    }
-
-    @Override
-    public void onItemClicked(long id) {
-
+    public void onItemClicked(View v, long pos, Album item) {
+        switch (v.getId()) {
+            case R.id.button_more_album:
+                showOptionMenu(v, item);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -70,4 +72,25 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     public void showError(Exception e) {
 
     }
+
+    private void showOptionMenu(View view, Album album) {
+        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        popup.inflate(R.menu.options_menu_albums_tab);
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.play:
+                    return true;
+                case R.id.add_to_queue:
+                    return true;
+                case R.id.add_to_playlist:
+                    return true;
+                case R.id.edit_info:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        popup.show();
+    }
+
 }

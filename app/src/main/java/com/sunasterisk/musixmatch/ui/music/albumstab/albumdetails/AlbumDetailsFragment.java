@@ -70,12 +70,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     }
 
     @Override
-    public void onItemClicked(Track item) {
-
-    }
-
-    @Override
-    public void onItemClicked(long id) {
+    public void onItemClicked(View v, long pos, Track item) {
 
     }
 
@@ -96,6 +91,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.more_option_album_details:
+                System.out.println("thanh tai nguyen");
                 showOptionMenu(mMoreOptionButton);
                 break;
             case R.id.back_album_details:

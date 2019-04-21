@@ -91,6 +91,11 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
     }
 
     @Override
+    public void onDuplicatePrePlaylist() {
+        Toast.makeText(getContext(), getString(R.string.text_duplicate_pre_playlist_name), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onItemClicked(View view, long pos, Playlist item) {
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         popup.inflate(R.menu.options_menu_playlist_tab);
