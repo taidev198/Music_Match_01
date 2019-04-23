@@ -120,7 +120,7 @@ public class PlaylistTabFragment extends BaseFragment implements PlaylistTabCont
     }
 
     private void showMenu(View view, Playlist playlist) {
-        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        PopupMenu popup = new PopupMenu(getContext(), view);
         popup.inflate(R.menu.options_menu_playlist_tab);
         popup.setOnMenuItemClickListener(v -> {
             switch (v.getItemId()) {

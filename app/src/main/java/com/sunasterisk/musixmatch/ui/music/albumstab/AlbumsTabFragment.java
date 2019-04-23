@@ -27,7 +27,7 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     protected RecyclerView mRecyclerView;
     protected AlbumsTabPresenter mPresenter;
     private static final int NUMBER_COLUMNS = 2;
-    private BaseActivity.OnFragmentChangeListener mFargmentChangeListener;
+    private BaseActivity.OnFragmentChangeListener mFragmentChangeListener;
 
     public static AlbumsTabFragment newInstance() {
         return new AlbumsTabFragment();
@@ -37,7 +37,7 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mFargmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+            mFragmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnFragmentChangeListener");
@@ -69,7 +69,7 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
                 showOptionMenu(v, item);
                 break;
             default:
-                mFargmentChangeListener.onReplaceFragment(getFragmentManager(),
+                mFragmentChangeListener.onReplaceFragment(getFragmentManager(),
                         AlbumsTabAdapter.getAlbumDetailsFragment(item));
                 break;
         }
@@ -90,7 +90,7 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     }
 
     private void showOptionMenu(View view, Album album) {
-        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        PopupMenu popup = new PopupMenu(getContext(), view);
         popup.inflate(R.menu.options_menu_albums_tab);
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

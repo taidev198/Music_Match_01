@@ -66,7 +66,7 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
                 TrackLocalDataSource.getInstance(getContext()));
         mPresenter = new AlbumDetailsPresenter(repository, this, mAlbum);
         mPresenter.getLocalTracks();
-        //setAlbumInfo(mAlbum);
+        setAlbumInfo(mAlbum);
     }
 
     @Override
@@ -101,13 +101,17 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     private void setAlbumInfo(Album album) {
         mAlbumName.setText(album.getAlbumName());
-        mCurrentSongName.setText(album.getNumberOfSongs());
-        mNumsSong.setText(album.getNumberOfSongs());
-        mAlbumArt.setForeground(Drawable.createFromPath(album.getAlbumArt()));
+        mCurrentSongName.setText(album.getAlbumName());
+        String format = String.format(getNumberTrackStr(album.getNumberOfSongs()), album.getNumberOfSongs());
+        mNumsSong.setText(format);
+        if (album.getAlbumArt() != null) {
+            mAlbumArt.setForeground(Drawable.createFromPath(album.getAlbumArt()));
+        }
+
     }
 
     private void showOptionMenu(View anchor) {
-        PopupMenu popup = new PopupMenu(anchor.getContext(), anchor);
+        PopupMenu popup = new PopupMenu(getContext(), anchor);
         popup.inflate(R.menu.options_menu_albums_tab);
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -124,5 +128,11 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
             }
         });
         popup.show();
+    }
+
+    private String getNumberTrackStr(int count) {
+        return count > 1 ? getContext().getResources().getString(R.string.text_tracks) :
+                getContext().getResources().getString(R.string.text_track);
+
     }
 }

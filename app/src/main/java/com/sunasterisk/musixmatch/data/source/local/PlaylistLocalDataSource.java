@@ -91,7 +91,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     @Override
     public void createPlaylist(String name, CreatingPlaylistCallBack callback) {
         if (name.length() == 0) {
-            callback.onInvalidPlaylist();
+            callback.onInvalid();
             return;
         }
         long id = getPlaylistId(name);
@@ -102,9 +102,9 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
             values.put(MediaStore.Audio.Playlists.NAME, name);
             Uri uri = mContentResolver.insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, values);
             id = Long.parseLong(uri.getLastPathSegment());
-            callback.onCreatePlaylistSuccessful();
+            callback.onSuccess();
         } else {
-            callback.onExistPlaylist();
+            callback.onExist();
         }
     }
 
@@ -128,9 +128,9 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     public void deletePlaylist(long id, DeletingPlaylistCallback callback) {
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, id);
         if (mContentResolver.delete(uri, null, null) >= 0) {
-            callback.onDeletePlaylistSuccessful();
+            callback.onDeleteSuccess();
         } else {
-            callback.onNotExistPlaylist();
+            callback.onNotExist();
         }
     }
 
@@ -146,18 +146,18 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
         long existingId = getPlaylistId(newName);
         // We are already called the requested name; nothing to do.
         if (existingId == id) {
-            callback.onDuplicatePrePlaylist();
+            callback.onDuplicate();
             return;
         }
         if (isExistPlaylist(existingId)) {
-            callback.onExistPlaylist();
+            callback.onExist();
             return;
         }
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Playlists.NAME, newName);
         mContentResolver.update(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, values, "_id=" + id, null);
-        callback.onRenamePlaylistSuccessful();
+        callback.onSuccess();
     }
 
     private int countPlaylist(final long id) {

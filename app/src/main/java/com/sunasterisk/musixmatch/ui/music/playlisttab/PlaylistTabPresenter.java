@@ -45,17 +45,17 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
 
         mRepository.renamePlaylist(id, newName, new PlaylistDataSource.RenamingPlaylistCallback() {
             @Override
-            public void onDuplicatePrePlaylist() {
+            public void onDuplicate() {
                 mView.onDuplicatePrePlaylist();
             }
 
             @Override
-            public void onRenamePlaylistSuccessful() {
+            public void onSuccess() {
                 mView.onPlaylistRenameSuccessful();
             }
 
             @Override
-            public void onExistPlaylist() {
+            public void onExist() {
                 mView.onPlaylistNameExist();
             }
 
@@ -66,12 +66,12 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
     public void deletePlaylist(long id) {
         mRepository.deletePlaylist(id, new PlaylistDataSource.DeletingPlaylistCallback() {
             @Override
-            public void onNotExistPlaylist() {
+            public void onNotExist() {
                 mView.onPlaylistDoesNotExist();
             }
 
             @Override
-            public void onDeletePlaylistSuccessful() {
+            public void onDeleteSuccess() {
                 mView.onDeletePlaylistSuccessful();
             }
         });

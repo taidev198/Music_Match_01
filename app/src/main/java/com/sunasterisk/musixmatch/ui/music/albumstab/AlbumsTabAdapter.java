@@ -68,7 +68,7 @@ public class AlbumsTabAdapter extends BaseAdapter<Album, OnRecyclerItemClickList
         @Override
         public void onClick(View v) {
             if (mCallback != null) {
-                mCallback.onItemClicked(v, 1, mItem);
+                mCallback.onItemClicked(v, getAdapterPosition(), mItem);
             }
         }
 

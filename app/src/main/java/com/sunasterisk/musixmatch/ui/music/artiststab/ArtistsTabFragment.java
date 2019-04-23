@@ -24,7 +24,7 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     private ArtistsTabAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ArtistsContract.Presenter mPresenter;
-    private BaseActivity.OnFragmentChangeListener mFargmentChangeListener;
+    private BaseActivity.OnFragmentChangeListener mFragmentChangeListener;
     public static ArtistsTabFragment newInstance() {
         return new ArtistsTabFragment();
     }
@@ -33,7 +33,7 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mFargmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+            mFragmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnFragmentChangeListener");
@@ -82,7 +82,7 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     }
 
     private void showOptionMenu(View v, Artist artist) {
-        PopupMenu popup = new PopupMenu(v.getContext(), v);
+        PopupMenu popup = new PopupMenu(getContext(), v);
         popup.inflate(R.menu.options_menu_artists_tab);
         popup.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

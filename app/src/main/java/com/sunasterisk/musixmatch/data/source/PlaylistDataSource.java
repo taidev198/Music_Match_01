@@ -28,24 +28,24 @@ public interface PlaylistDataSource {
     void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback);
 
     interface CreatingPlaylistCallBack {
-        void onCreatePlaylistSuccessful();
+        void onSuccess();
 
-        void onExistPlaylist();
+        void onExist();
 
-        void onInvalidPlaylist();
+        void onInvalid();
     }
 
     interface RenamingPlaylistCallback {
-        void onDuplicatePrePlaylist();
+        void onDuplicate();
 
-        void onRenamePlaylistSuccessful();
+        void onSuccess();
 
-        void onExistPlaylist();
+        void onExist();
     }
 
     interface DeletingPlaylistCallback {
-        void onNotExistPlaylist();
+        void onNotExist();
 
-        void onDeletePlaylistSuccessful();
+        void onDeleteSuccess();
     }
 }
