@@ -40,4 +40,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initComponents();
 
     protected abstract void initData();
+
+    public interface OnFragmentChangeListener {
+
+        void onAddFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId);
+
+        void onReplaceFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment);
+
+    }
 }

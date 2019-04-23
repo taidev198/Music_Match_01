@@ -66,12 +66,20 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
                 TrackLocalDataSource.getInstance(getContext()));
         mPresenter = new AlbumDetailsPresenter(repository, this, mAlbum);
         mPresenter.getLocalTracks();
-        setAlbumInfo(mAlbum);
+        //setAlbumInfo(mAlbum);
     }
 
     @Override
     public void onItemClicked(View v, long pos, Track item) {
-
+        switch (v.getId()) {
+            case R.id.more_option_album_details:
+                showOptionMenu(mMoreOptionButton);
+                break;
+            case R.id.back_album_details:
+                break;
+            case R.id.card_shuffle_play:
+                break;
+        }
     }
 
     @Override
@@ -89,16 +97,6 @@ public class AlbumDetailsFragment extends BaseFragment implements AlbumDetailsCo
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.more_option_album_details:
-                System.out.println("thanh tai nguyen");
-                showOptionMenu(mMoreOptionButton);
-                break;
-            case R.id.back_album_details:
-                break;
-            case R.id.card_shuffle_play:
-                break;
-        }
     }
 
     private void setAlbumInfo(Album album) {

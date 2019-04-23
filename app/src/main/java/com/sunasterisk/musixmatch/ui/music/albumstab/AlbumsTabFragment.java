@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.albumstab;
 
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Album;
 import com.sunasterisk.musixmatch.data.repository.AlbumRepository;
 import com.sunasterisk.musixmatch.data.source.local.AlbumLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
@@ -25,9 +27,21 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
     protected RecyclerView mRecyclerView;
     protected AlbumsTabPresenter mPresenter;
     private static final int NUMBER_COLUMNS = 2;
+    private BaseActivity.OnFragmentChangeListener mFargmentChangeListener;
 
     public static AlbumsTabFragment newInstance() {
         return new AlbumsTabFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mFargmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
     }
 
     @Override
@@ -55,6 +69,8 @@ public class AlbumsTabFragment extends BaseFragment implements AlbumsContract.Vi
                 showOptionMenu(v, item);
                 break;
             default:
+                mFargmentChangeListener.onReplaceFragment(getFragmentManager(),
+                        AlbumsTabAdapter.getAlbumDetailsFragment(item));
                 break;
         }
     }

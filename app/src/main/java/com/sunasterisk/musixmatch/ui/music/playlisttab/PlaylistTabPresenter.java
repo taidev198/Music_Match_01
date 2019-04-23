@@ -2,7 +2,6 @@ package com.sunasterisk.musixmatch.ui.music.playlisttab;
 
 import android.content.Context;
 
-import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Playlist;
 import com.sunasterisk.musixmatch.data.repository.PlaylistRepository;
 import com.sunasterisk.musixmatch.data.source.Callback;
@@ -44,7 +43,7 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
     @Override
     public void renamePlaylist(long id, String newName) {
 
-        mRepository.renamePlaylist(id, newName, new PlaylistDataSource.onRenamePlaylist() {
+        mRepository.renamePlaylist(id, newName, new PlaylistDataSource.RenamingPlaylistCallback() {
             @Override
             public void onDuplicatePrePlaylist() {
                 mView.onDuplicatePrePlaylist();
@@ -65,7 +64,7 @@ public class PlaylistTabPresenter implements PlaylistTabContract.Presenter {
 
     @Override
     public void deletePlaylist(long id) {
-        mRepository.deletePlaylist(id, new PlaylistDataSource.onDeletePlaylist() {
+        mRepository.deletePlaylist(id, new PlaylistDataSource.DeletingPlaylistCallback() {
             @Override
             public void onNotExistPlaylist() {
                 mView.onPlaylistDoesNotExist();

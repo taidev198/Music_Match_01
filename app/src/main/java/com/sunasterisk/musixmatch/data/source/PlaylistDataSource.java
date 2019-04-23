@@ -17,17 +17,17 @@ public interface PlaylistDataSource {
 
     Uri addSongToPlaylist(long Id, Track track);
 
-    void createPlaylist(String name, onCreatePlaylist callback);
+    void createPlaylist(String name, CreatingPlaylistCallBack callback);
 
     long getPlaylistId(String name);
 
-    void deletePlaylist(long id, onDeletePlaylist callback);
+    void deletePlaylist(long id, DeletingPlaylistCallback callback);
 
     int removeTrackFromPlaylist(long id, Track track);
 
-    void renamePlaylist(long id, String newName, onRenamePlaylist callback);
+    void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback);
 
-    interface onCreatePlaylist {
+    interface CreatingPlaylistCallBack {
         void onCreatePlaylistSuccessful();
 
         void onExistPlaylist();
@@ -35,7 +35,7 @@ public interface PlaylistDataSource {
         void onInvalidPlaylist();
     }
 
-    interface onRenamePlaylist {
+    interface RenamingPlaylistCallback {
         void onDuplicatePrePlaylist();
 
         void onRenamePlaylistSuccessful();
@@ -43,8 +43,9 @@ public interface PlaylistDataSource {
         void onExistPlaylist();
     }
 
-    interface onDeletePlaylist {
+    interface DeletingPlaylistCallback {
         void onNotExistPlaylist();
+
         void onDeletePlaylistSuccessful();
     }
 }

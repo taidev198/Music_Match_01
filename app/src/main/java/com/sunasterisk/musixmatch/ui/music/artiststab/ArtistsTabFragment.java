@@ -1,5 +1,6 @@
 package com.sunasterisk.musixmatch.ui.music.artiststab;
 
+import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import com.sunasterisk.musixmatch.R;
 import com.sunasterisk.musixmatch.data.model.Artist;
 import com.sunasterisk.musixmatch.data.repository.ArtistRepository;
 import com.sunasterisk.musixmatch.data.source.local.ArtistLocalDataSource;
+import com.sunasterisk.musixmatch.ui.base.BaseActivity;
 import com.sunasterisk.musixmatch.ui.base.BaseFragment;
 import com.sunasterisk.musixmatch.ui.base.OnRecyclerItemClickListener;
 
@@ -22,9 +24,20 @@ public class ArtistsTabFragment extends BaseFragment implements ArtistsContract.
     private ArtistsTabAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ArtistsContract.Presenter mPresenter;
-
+    private BaseActivity.OnFragmentChangeListener mFargmentChangeListener;
     public static ArtistsTabFragment newInstance() {
         return new ArtistsTabFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mFargmentChangeListener = (BaseActivity.OnFragmentChangeListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
     }
 
     @Override

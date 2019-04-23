@@ -89,7 +89,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     }
 
     @Override
-    public void createPlaylist(String name, onCreatePlaylist callback) {
+    public void createPlaylist(String name, CreatingPlaylistCallBack callback) {
         if (name.length() == 0) {
             callback.onInvalidPlaylist();
             return;
@@ -125,7 +125,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     }
 
     @Override
-    public void deletePlaylist(long id, onDeletePlaylist callback) {
+    public void deletePlaylist(long id, DeletingPlaylistCallback callback) {
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, id);
         if (mContentResolver.delete(uri, null, null) >= 0) {
             callback.onDeletePlaylistSuccessful();
@@ -142,7 +142,7 @@ public class PlaylistLocalDataSource implements PlaylistDataSource {
     }
 
     @Override
-    public void renamePlaylist(long id, String newName, onRenamePlaylist callback) {
+    public void renamePlaylist(long id, String newName, RenamingPlaylistCallback callback) {
         long existingId = getPlaylistId(newName);
         // We are already called the requested name; nothing to do.
         if (existingId == id) {
